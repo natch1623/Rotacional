@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>El Rotacional de un Campo Vectorial — ∇ × F</title>
+<meta name="description" content="Charla de equipo sobre el operador rotacional: definición, cálculo, propiedades, aplicaciones y ejemplos resueltos.">
+<link rel="stylesheet" href="css/fonts.css?v=14">
+<link rel="stylesheet" href="css/deck.css?v=14">
+<link rel="stylesheet" href="css/slides.css?v=14">
+</head>
+<body>
+
+<div class="progress" id="progress" role="progressbar" aria-label="Avance de la presentación"></div>
+
+<div class="deck-chrome chrome-brand">
+  <span class="mark">∇ × F</span>
+  <span>Rotacional</span>
+</div>
+
+<div class="deck-chrome chrome-section">
+  <span id="section-label">Cálculo Vectorial</span>
+  <span class="dot" aria-hidden="true"></span>
+</div>
+
+<div class="viewport">
+<main class="stage" id="stage" aria-live="polite">
+
+<!-- líneas de campo de fondo: presentes en todo el deck, más intensas
+     en portadas y divisorias (ver js/backdrop.js) -->
+<div class="bg-field" aria-hidden="true"><canvas id="bg-canvas"></canvas></div>
+
+
+<!-- ═══════════════════════════ 01 · PORTADA ═══════════════════════════ -->
+<section class="slide cover" data-bg="full" data-transition="iris" data-anim-style="pop" data-section="Apertura" data-title="Portada" data-who="Integrante 7">
+  <div class="cover-inner">
+    <span class="eyebrow" data-anim="1">Cálculo Vectorial · Charla de equipo</span>
+    <div class="cover-glyph" data-anim="2">∇ × F</div>
+    <h1 class="s-title" data-anim="3">El <span class="accent">Rotacional</span><br>de un Campo Vectorial</h1>
+    <p class="lead" data-anim="4">El operador que traduce una idea física —el giro de un campo— en un objeto matemático preciso, calculable y con propiedades bien definidas.</p>
+    <div class="cover-meta" data-anim="5">
+      <span>7 integrantes</span><span class="sep"></span>
+      <span>7 bloques</span><span class="sep"></span>
+      <span>3 ejemplos resueltos en conjunto</span>
+    </div>
+  </div>
+
+  <div class="slide-notes" hidden>
+    <p><strong>Apertura —</strong> <em>"Buenas tardes a todos. Hoy nuestro equipo les presentará el operador rotacional, uno de los tres operadores fundamentales del cálculo vectorial, junto con el gradiente y la divergencia. Este operador es ampliamente usado en física e ingeniería para describir fenómenos de rotación, circulación y vorticidad en campos vectoriales, desde el electromagnetismo hasta la mecánica de fluidos y la aerodinámica."</em></p>
+    <p><strong>Recordatorio:</strong> pulsa <b>N</b> para ocultar este panel, <b>O</b> para la vista general de diapositivas y <b>F</b> para pantalla completa. El cronómetro de arriba a la derecha se reinicia con <b>R</b>.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ 02 · AGENDA ═══════════════════════════ -->
+<section class="slide" data-bg="quiet" data-transition="rise" data-anim-style="fan" data-section="Apertura" data-title="Estructura de la charla" data-who="Integrante 7">
+  <div class="slide-head">
+    <span class="eyebrow" data-anim="1">Cómo está dividida la exposición</span>
+    <h2 class="s-title" data-anim="2">Siete bloques,<br>una sola idea</h2>
+  </div>
+
+  <div class="agenda" data-anim="3" style="margin-top:38px">
+    <div class="agenda-item">
+      <span class="n">01</span>
+      <span class="t">Conceptos y definición formal</span>
+      <span class="d">Qué es un operador vectorial y cómo se define ∇ × F.</span>
+    </div>
+    <div class="agenda-item">
+      <span class="n">02</span>
+      <span class="t">¿Qué es y por qué se utiliza?</span>
+      <span class="d">El significado físico: circulación y remolinos.</span>
+    </div>
+    <div class="agenda-item">
+      <span class="n">03</span>
+      <span class="t">Procedimiento de cálculo</span>
+      <span class="d">El determinante simbólico 3 × 3, paso a paso.</span>
+    </div>
+    <div class="agenda-item">
+      <span class="n">04</span>
+      <span class="t">Interpretación y propiedades</span>
+      <span class="d">Leer el resultado y las tres propiedades clave.</span>
+    </div>
+    <div class="agenda-item">
+      <span class="n">05</span>
+      <span class="t">Aplicaciones reales</span>
+      <span class="d">Maxwell, vorticidad de fluidos y aerodinámica.</span>
+    </div>
+    <div class="agenda-item">
+      <span class="n">06</span>
+      <span class="t">Gráficos y esquemas</span>
+      <span class="d">Ver con imágenes lo explicado en teoría.</span>
+    </div>
+    <div class="agenda-item">
+      <span class="n">07</span>
+      <span class="t">Introducción y cierre</span>
+      <span class="d">Hilo conductor, transiciones y síntesis final.</span>
+    </div>
+    <div class="agenda-item is-final">
+      <span class="n">＋</span>
+      <span class="t">Ejemplos resueltos</span>
+      <span class="d">Trabajo colectivo: todo el equipo debe dominarlos.</span>
+    </div>
+  </div>
+
+  <div class="slide-notes" hidden>
+    <p><em>"Para que la exposición sea clara y ordenada, la hemos dividido en siete bloques. Primero, definiremos formalmente qué es un operador vectorial y qué es el rotacional. Segundo, explicaremos qué representa físicamente y por qué se utiliza. Tercero, mostraremos el procedimiento paso a paso para calcularlo, usando el determinante simbólico. Cuarto, interpretaremos los resultados que se pueden obtener y revisaremos sus propiedades matemáticas más importantes. Quinto, veremos sus aplicaciones reales en electromagnetismo, fluidos y aerodinámica. Sexto, apoyaremos todo lo anterior con gráficos y esquemas. Y finalmente, entre todos resolveremos algunos ejemplos para que quede totalmente claro cómo se aplica lo aprendido. Comencemos con la primera parte."</em></p>
+    <p><strong>Coordinación:</strong> controlar el tiempo de cada bloque y avisar discretamente si alguien se extiende demasiado.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ 03 · DIVISOR 01 ═══════════════════════════ -->
+<section class="slide is-divider" data-bg="strong" data-transition="wipe" data-anim-style="left" data-fx="scan" data-section="Bloque 01 · Definición" data-title="Bloque 01 — Definición formal" data-who="Integrante 1">
+  <div class="divider-wrap">
+    <div class="divider-num" data-anim="1">01</div>
+    <div class="divider-body">
+      <span class="who" data-anim="2">Integrante 1</span>
+      <h2 data-anim="3">Conceptos y<br>definición formal</h2>
+      <p class="transition" data-anim="4">"Antes de entrar al procedimiento y a los ejemplos, necesitamos tener claro qué es exactamente un operador vectorial."</p>
+    </div>
+  </div>
+  <div class="slide-notes" hidden>
+    <p><strong>Transición del integrante 7 →</strong> <em>"Comencemos con la primera parte: la definición formal."</em></p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ 04 · OPERADORES ═══════════════════════════ -->
+<section class="slide" data-bg="quiet" data-transition="zoom" data-anim-style="flip" data-section="Bloque 01 · Definición" data-title="Los tres operadores de ∇" data-who="Integrante 1">
+  <div class="slide-head">
+    <span class="eyebrow" data-anim="1">Operadores construidos a partir del operador nabla</span>
+    <h2 class="s-title" data-anim="2">Tres operadores, tres salidas distintas</h2>
+  </div>
+
+  <div class="grid-3" data-anim="3" style="margin-top:34px" data-steps="3" data-step="0" role="button" tabindex="0">
+    <article class="card is-violet" data-t="1">
+      <div class="card-k">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+          <path d="M4 20 L20 4"/><path d="M14 4h6v6"/>
+        </svg>
+        Gradiente
+      </div>
+      <div class="card-t">escalar → vector</div>
+      <p class="card-p">Actúa sobre un campo escalar y devuelve un campo vectorial que indica la <b>dirección de mayor crecimiento</b>.</p>
+      <div class="canvas-frame" style="height:104px;margin-top:14px;border-color:rgba(123,97,255,.34)">
+        <canvas data-field="hill" data-scalar="hill" data-density="13"></canvas>
+      </div>
+      <div class="eq is-sm" style="margin-top:12px">∇<span class="hl-v">f</span></div>
+    </article>
+
+    <article class="card" data-t="2">
+      <div class="card-k">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+          <circle cx="12" cy="12" r="2.4"/>
+          <path d="M12 7V3M12 21v-4M7 12H3M21 12h-4M8.5 8.5 5.7 5.7M18.3 18.3l-2.8-2.8M15.5 8.5l2.8-2.8M5.7 18.3l2.8-2.8"/>
+        </svg>
+        Divergencia
+      </div>
+      <div class="card-t">vector → escalar</div>
+      <p class="card-p">Mide cuánto <b>se expande o se contrae</b> el campo en un punto: una fuente o un sumidero.</p>
+      <div class="canvas-frame" style="height:104px;margin-top:14px">
+        <canvas data-field="source" data-density="13"></canvas>
+      </div>
+      <div class="eq is-sm" style="margin-top:12px">∇ · <span class="hl">F</span></div>
+    </article>
+
+    <article class="card is-magenta" data-t="3">
+      <div class="card-k">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+          <path d="M12 12c0-2.2 1.8-4 4-4s4 1.8 4 4-1.8 4-4 4h-4c-3.3 0-6-2.7-6-6s2.7-6 6-6"/>
+          <path d="M4.5 17.5 7 15l2.5 2.5"/>
+        </svg>
+        Rotacional
+      </div>
+      <div class="card-t">vector → vector</div>
+      <p class="card-p">Actúa sobre un campo vectorial y devuelve <b>otro campo vectorial</b>, no un escalar. No mide expansión: <b>mide giro</b>.</p>
+      <div class="canvas-frame is-on" style="height:104px;margin-top:14px">
+        <canvas data-field="vortex" data-density="13"></canvas>
+      </div>
+      <div class="eq is-sm" style="margin-top:12px">∇ <span class="hl-m">×</span> <span class="hl-m">F</span></div>
+    </article>
+  </div>
+
+  <div class="callout is-magenta" data-anim="5" style="margin-top:20px">
+    <b>La primera diferencia importante:</b> el rotacional no mide expansión, mide giro — y su resultado sigue siendo un vector.
+  </div>
+
+  <div class="slide-notes" hidden>
+    <p><em>"Un operador vectorial es una herramienta matemática que toma un campo —en este caso un campo vectorial— y lo transforma en otro objeto matemático, aplicando derivadas parciales sobre sus componentes. Dentro del cálculo vectorial trabajamos principalmente con tres operadores construidos a partir del operador nabla, que se escribe como el símbolo ∇: el gradiente, la divergencia y el rotacional."</em></p>
+    <p><em>"El gradiente actúa sobre un campo escalar y devuelve un campo vectorial que indica la dirección de mayor crecimiento. La divergencia actúa sobre un campo vectorial y devuelve un escalar, que mide cuánto 'se expande' o 'se contrae' el campo en un punto, como una fuente o un sumidero. El rotacional, en cambio, actúa sobre un campo vectorial F y devuelve otro campo vectorial, no un escalar. Esa es la primera diferencia importante que deben recordar: el rotacional no mide expansión, mide giro."</em></p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ 05 · DEFINICIÓN FORMAL ═══════════════════════════ -->
+<section class="slide" data-bg="quiet" data-transition="unfold" data-anim-style="rise" data-section="Bloque 01 · Definición" data-title="Definición formal y notaciones" data-who="Integrante 1">
+  <div class="split-wide">
+    <div class="stack">
+      <span class="eyebrow" data-anim="1">Definición formal</span>
+      <h2 class="s-title" data-anim="2">Si <span class="m"><span class="v">F</span></span> es diferenciable,<br>∇ × <span class="m"><span class="v">F</span></span> existe</h2>
+      <div class="eq is-sm" data-anim="3" style="justify-content:flex-start">
+        <span class="m"><span class="vec">F</span>(<span class="v">x</span>, <span class="v">y</span>, <span class="v">z</span>) = <span class="v">P</span> <span class="hl">i</span> + <span class="v">Q</span> <span class="hl">j</span> + <span class="v">R</span> <span class="hl">k</span></span>
+      </div>
+      <div class="callout" data-anim="4">
+        <b>Condición de existencia:</b> <span class="m"><span class="v">P</span></span>, <span class="m"><span class="v">Q</span></span> y <span class="m"><span class="v">R</span></span> deben ser diferenciables, es decir, admitir <b>derivadas parciales continuas</b> en una vecindad del punto. Esta condición es la que permite garantizar después propiedades como div(∇ × F) = 0.
+      </div>
+    </div>
+
+    <div class="stack">
+      <div class="card is-plain" data-anim="4" style="text-align:center">
+        <div class="card-k" style="justify-content:center">Tres notaciones equivalentes</div>
+        <div class="eq is-lg is-bare" style="margin:18px 0 6px"><span class="hl">∇ × F</span></div>
+        <div class="eq is-bare dim" style="font-size:16px;color:var(--color-muted-foreground);margin:0 0 14px">representan exactamente lo mismo</div>
+        <div class="chips" style="justify-content:center">
+          <span class="chip is-on">∇ × F</span>
+          <span class="chip is-on">rot F</span>
+          <span class="chip is-on">curl F&nbsp;<span style="opacity:.6">(inglés)</span></span>
+        </div>
+      </div>
+      <ul class="bullets is-tight" data-anim="5">
+        <li>Un <b>operador vectorial</b> transforma un campo en otro objeto matemático mediante derivadas parciales.</li>
+        <li><b>Nabla ∇</b> es la base del gradiente, la divergencia y el rotacional.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="slide-notes" hidden>
+    <p><em>"Formalmente, si tenemos un campo vectorial F(x, y, z) = P(x, y, z) i + Q(x, y, z) j + R(x, y, z) k, definido y diferenciable en una región del espacio, el rotacional de F se denota de tres formas equivalentes: ∇ × F, rot F, o curl F en inglés. Las tres notaciones representan exactamente lo mismo."</em></p>
+    <p><em>"Para que el rotacional exista en un punto, es necesario que las funciones P, Q y R sean diferenciables, es decir, que admitan derivadas parciales continuas en una vecindad de ese punto. Esta condición es la que nos permite garantizar más adelante propiedades como que la divergencia del rotacional siempre es cero."</em></p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ 06 · DIVISOR 02 ═══════════════════════════ -->
+<section class="slide is-divider" data-bg="strong" data-transition="blade" data-anim-style="left" data-fx="scan" data-section="Bloque 02 · Significado" data-title="Bloque 02 — Qué es y por qué se usa" data-who="Integrante 2">
+  <div class="divider-wrap">
+    <div class="divider-num" data-anim="1">02</div>
+    <div class="divider-body">
+      <span class="who" data-anim="2">Integrante 2</span>
+      <h2 data-anim="3">¿Qué es y<br>por qué se utiliza?</h2>
+      <p class="transition" data-anim="4">"Ya que tenemos clara la definición formal, veamos ahora qué representa físicamente el rotacional y por qué lo necesitamos."</p>
+    </div>
+  </div>
+  <div class="slide-notes" hidden>
+    <p><strong>Transición del integrante 7.</strong> Enlazar con lo que acaba de decir el integrante 1: la definición ya está, ahora toca el significado.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ 07 · QUÉ MIDE ═══════════════════════════ -->
+<section class="slide" data-bg="quiet" data-transition="unfold" data-anim-style="pop" data-section="Bloque 02 · Significado" data-title="Circulación: el río y el remolino" data-who="Integrante 2">
+  <div class="slide-head">
+    <span class="eyebrow" data-anim="1">El nombre no es casualidad</span>
+    <h2 class="s-title" data-anim="2">Cuantificar la circulación<br>alrededor de un punto</h2>
+  </div>
+
+  <div class="grid-2" data-anim="3" style="margin-top:30px;gap:32px">
+    <div class="canvas-frame is-off" style="height:330px">
+      <canvas data-field="laminar" data-density="24"></canvas>
+      <span class="cf-label">Flujo laminar</span>
+      <span class="cf-eq">∇ × F = 0</span>
+    </div>
+    <div class="canvas-frame is-on" style="height:330px">
+      <canvas data-field="vortex" data-density="24"></canvas>
+      <span class="cf-label">Remolino</span>
+      <span class="cf-eq">∇ × F ≠ 0</span>
+    </div>
+  </div>
+
+  <div class="callout is-violet" data-anim="4" style="margin-top:26px">
+    <b>Imaginen un río:</b> el agua no solo avanza en línea recta, también puede formar remolinos en ciertas zonas. El rotacional nos dice, <b>en cada punto</b>, si hay tendencia a formar ese remolino, en qué dirección gira y qué tan intenso es el giro.
+  </div>
+
+  <div class="slide-notes" hidden>
+    <p><em>"El nombre 'rotacional' no es casualidad: este operador nace de la necesidad de cuantificar la rotación o circulación de un campo vectorial alrededor de un punto. Imaginen un río: el agua no solo avanza en línea recta, también puede formar remolinos en ciertas zonas. El rotacional es la herramienta matemática que nos dice, en cada punto, si hay tendencia a formar ese remolino, en qué dirección gira y qué tan intenso es ese giro."</em></p>
+    <p><strong>Apoyo visual:</strong> a la izquierda todas las flechas avanzan ordenadas en la misma dirección — campo irrotacional. A la derecha las flechas giran alrededor de un punto central — rotacional distinto de cero.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ 08 · RUEDA DE PALETAS ═══════════════════════════ -->
+<section class="slide" data-bg="quiet" data-transition="spin" data-anim-style="right" data-section="Bloque 02 · Significado" data-title="La rueda de paletas" data-who="Integrante 2">
+  <div class="split-narrow">
+    <div class="canvas-frame is-on" style="height:430px">
+      <canvas data-field="vortex" data-wheel="true" data-density="20"></canvas>
+      <span class="cf-label">Rueda sumergida en el campo</span>
+    </div>
+
+    <div class="stack">
+      <span class="eyebrow is-magenta" data-anim="1">La analogía clásica</span>
+      <h2 class="s-title" data-anim="2">Si la rueda gira,<br>el rotacional no es cero</h2>
+      <p class="lead" data-anim="3">Una pequeña rueda de paletas —como una veleta con aspas— sumergida en el fluido descrito por el campo <span class="m"><span class="vec">F</span></span>.</p>
+      <ul class="bullets" data-anim="4">
+        <li>La <b>dirección</b> del vector rotacional coincide con el <b>eje de giro</b> de la rueda, siguiendo la <b>regla de la mano derecha</b>.</li>
+        <li>Su <b>magnitud</b> está relacionada con la <b>velocidad angular</b> de ese giro.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="slide-notes" hidden>
+    <p><em>"Una forma clásica de entenderlo es imaginar una pequeña rueda de paletas, como una veleta con aspas, sumergida en el fluido descrito por el campo F. Si colocamos esa rueda en un punto y el campo tiene rotacional distinto de cero ahí, la rueda comenzará a girar. La dirección del vector rotacional coincide con el eje de giro de la rueda, siguiendo la regla de la mano derecha, y su magnitud está relacionada con la velocidad angular de ese giro."</em></p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ 09 · CLASIFICACIÓN ═══════════════════════════ -->
+<section class="slide" data-bg="quiet" data-transition="zoom" data-anim-style="pop" data-section="Bloque 02 · Significado" data-title="Irrotacional vs. con rotación" data-who="Integrante 2">
+  <div class="slide-head">
+    <span class="eyebrow" data-anim="1">Dos categorías de campos</span>
+    <h2 class="s-title" data-anim="2">De aquí salen dos familias<br>muy importantes</h2>
+  </div>
+
+  <div class="grid-2" data-anim="3" style="margin-top:34px;gap:28px" data-steps="2" data-step="0" role="button" tabindex="0">
+    <article class="card" data-t="1">
+      <div class="card-k">Campo irrotacional</div>
+      <div class="eq is-lg" style="margin:6px 0 18px"><span class="hl">rot F = 0</span></div>
+      <p class="card-p">El rotacional es el <b>vector cero en toda la región</b> de estudio. Físicamente: <b>no hay remolinos</b>, el flujo es "liso".</p>
+      <p class="card-p" style="margin-top:14px">Estos campos están directamente relacionados con los <b>campos conservativos</b>, los que provienen de una función potencial.</p>
+    </article>
+
+    <article class="card is-magenta" data-t="2">
+      <div class="card-k">Campo con rotación</div>
+      <div class="eq is-lg" style="margin:6px 0 18px"><span class="hl-m">rot F ≠ 0</span></div>
+      <p class="card-p">El rotacional es <b>distinto de cero en algún punto</b>. Existe tendencia al giro en esa zona del campo.</p>
+      <p class="card-p" style="margin-top:14px">Es el caso de la mayoría de campos reales: por eso el operador es tan relevante en física e ingeniería.</p>
+    </article>
+  </div>
+
+  <div class="callout" data-anim="4" style="margin-top:28px">
+    Esta distinción es clave porque, como veremos en el bloque 04, <b>los campos irrotacionales están directamente relacionados con los campos conservativos.</b>
+  </div>
+
+  <div class="slide-notes" hidden>
+    <p><em>"De aquí surgen dos categorías de campos muy importantes. Un campo se llama irrotacional cuando su rotacional es el vector cero en toda la región de estudio; físicamente, esto significa que no hay remolinos, el flujo es 'liso'. Cuando el rotacional es distinto de cero en algún punto, decimos que el campo tiene rotación en esa zona. Esta distinción es clave porque, como veremos más adelante, los campos irrotacionales están directamente relacionados con los campos conservativos, esos que provienen de una función potencial."</em></p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ 10 · DIVISOR 03 ═══════════════════════════ -->
+<section class="slide is-divider" data-bg="strong" data-transition="wipe" data-anim-style="fall" data-fx="scan" data-section="Bloque 03 · Cálculo" data-title="Bloque 03 — Procedimiento de cálculo" data-who="Integrante 3">
+  <div class="divider-wrap">
+    <div class="divider-num" data-anim="1">03</div>
+    <div class="divider-body">
+      <span class="who" data-anim="2">Integrante 3</span>
+      <h2 data-anim="3">Procedimiento<br>detallado de cálculo</h2>
+      <p class="transition" data-anim="4">"Entendido el concepto, pasemos a la parte práctica: cómo se calcula paso a paso."</p>
+    </div>
+  </div>
+  <div class="slide-notes" hidden>
+    <p><strong>Transición del integrante 7.</strong> Coordinar con el integrante 6: los esquemas del determinante deben coincidir con lo que se explica aquí.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ 11 · DETERMINANTE ═══════════════════════════ -->
+<section class="slide" data-bg="quiet" data-transition="blade" data-anim-style="fall" data-section="Bloque 03 · Cálculo" data-title="El determinante simbólico 3×3" data-who="Integrante 3">
+  <div class="split-wide">
+    <div class="stack" style="align-items:center">
+      <span class="eyebrow" data-anim="1" style="align-self:flex-start">Cómo se arma</span>
+      <!-- Cada fila entra por separado y después arranca la expansión por
+           cofactores: se tacha la fila 1 y una columna, y queda a la vista
+           el menor 2×2 que produce cada componente. Ver deck.js. -->
+      <div class="det-wrap" id="det" data-steps="3" data-step="0" role="button" tabindex="0"
+           aria-label="Expansión por cofactores: pulsa para avanzar de componente">
+        <div class="det">
+          <span class="cell r1 c1" data-anim="2">i</span><span class="cell r1 c2" data-anim="2">j</span><span class="cell r1 c3" data-anim="2">k</span>
+          <span class="cell r2 c1" data-anim="3"><span class="frac"><span class="num">∂</span><span class="den">∂x</span></span></span>
+          <span class="cell r2 c2" data-anim="3"><span class="frac"><span class="num">∂</span><span class="den">∂y</span></span></span>
+          <span class="cell r2 c3" data-anim="3"><span class="frac"><span class="num">∂</span><span class="den">∂z</span></span></span>
+          <span class="cell r3 c1" data-anim="4">P</span><span class="cell r3 c2" data-anim="4">Q</span><span class="cell r3 c3" data-anim="4">R</span>
+        </div>
+
+        <div class="det-step">
+          <span class="ds" data-s="0">
+            <span class="lbl">Se resuelve por cofactores a lo largo de la primera fila</span>
+          </span>
+          <span class="ds" data-s="1">
+            <span class="lbl">Componente</span>
+            <span class="hl" style="font-size:22px;font-style:italic">i</span>
+            <span>= <span class="frac"><span class="num">∂R</span><span class="den">∂y</span></span> − <span class="frac"><span class="num">∂Q</span><span class="den">∂z</span></span></span>
+          </span>
+          <span class="ds" data-s="2">
+            <span class="lbl">Componente</span>
+            <span class="hl-m" style="font-size:22px;font-style:italic">j</span>
+            <span><span class="hl-m">= −</span>(<span class="frac"><span class="num">∂R</span><span class="den">∂x</span></span> − <span class="frac"><span class="num">∂P</span><span class="den">∂z</span></span>)</span>
+            <span class="ds-warn">signo del cofactor</span>
+          </span>
+          <span class="ds" data-s="3">
+            <span class="lbl">Componente</span>
+            <span class="hl-v" style="font-size:22px;font-style:italic">k</span>
+            <span>= <span class="frac"><span class="num">∂Q</span><span class="den">∂x</span></span> − <span class="frac"><span class="num">∂P</span><span class="den">∂y</span></span></span>
+          </span>
+        </div>
+
+        <span class="det-hint">clic para avanzar</span>
+      </div>
+    </div>
+
+    <div class="stack">
+      <h2 class="s-title" data-anim="2" style="font-size:44px">Igual que un producto cruz,<br>pero con una particularidad</h2>
+      <div class="det-legend" data-anim="3">
+        <div class="leg">
+          <span class="swatch" style="background:var(--color-primary)"></span>
+          <span><b>Fila 1 — vectores unitarios</b>i, j, k. La base del espacio.</span>
+        </div>
+        <div class="leg">
+          <span class="swatch" style="background:#a58cff"></span>
+          <span><b>Fila 2 — el operador nabla</b>No van números ni un vector cualquiera: van las tres derivadas parciales ∂/∂x, ∂/∂y, ∂/∂z.</span>
+        </div>
+        <div class="leg">
+          <span class="swatch" style="background:#ff6bff"></span>
+          <span><b>Fila 3 — componentes del campo</b>P, Q y R, en ese orden.</span>
+        </div>
+      </div>
+      <div class="callout is-violet" data-anim="4">
+        <b>Recomendación práctica:</b> siempre armar el determinante completo antes de resolver, en lugar de memorizar directamente el resultado final.
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-notes" hidden>
+    <p><em>"Partimos de un campo F = P i + Q j + R k. La forma más ordenada de calcularlo es armando un determinante simbólico de 3 por 3, igual que en un producto cruz común, pero con una particularidad: en la segunda fila no colocamos números ni un vector cualquiera, sino el operador nabla con sus tres derivadas parciales."</em></p>
+    <p><em>"El determinante se arma así: en la primera fila van los vectores unitarios i, j, k. En la segunda fila van las derivadas parciales respecto a x, respecto a y y respecto a z. En la tercera fila van las componentes del campo: P, Q y R, en ese orden."</em></p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ 12 · FÓRMULA FINAL ═══════════════════════════ -->
+<section class="slide" data-bg="quiet" data-transition="wipe" data-anim-style="rise" data-section="Bloque 03 · Cálculo" data-title="Fórmula final por componentes" data-who="Integrante 3">
+  <div class="slide-head">
+    <span class="eyebrow" data-anim="1">Al resolver por cofactores a lo largo de la primera fila</span>
+    <h2 class="s-title" data-anim="2" style="font-size:44px">La fórmula final, componente a componente</h2>
+  </div>
+
+  <!-- Recorrido: cada término de la fórmula se enciende junto con su
+       tarjeta, para que quede claro de dónde sale cada componente. -->
+  <div class="formula-wrap" id="formula" data-steps="3" data-step="0" role="button" tabindex="0"
+       aria-label="Recorrido por las tres componentes: pulsa para avanzar">
+
+  <div class="eq" data-anim="3" style="margin-top:22px;font-size:26px">
+    <span class="hl">∇ × F</span> &nbsp;=&nbsp;
+    <span>(</span>
+    <span class="fterm" data-t="1"><span class="frac"><span class="num">∂R</span><span class="den">∂y</span></span> − <span class="frac"><span class="num">∂Q</span><span class="den">∂z</span></span></span>
+    <span class="dim">,</span>
+    <span class="fterm" data-t="2"><span class="frac"><span class="num">∂P</span><span class="den">∂z</span></span> − <span class="frac"><span class="num">∂R</span><span class="den">∂x</span></span></span>
+    <span class="dim">,</span>
+    <span class="fterm" data-t="3"><span class="frac"><span class="num">∂Q</span><span class="den">∂x</span></span> − <span class="frac"><span class="num">∂P</span><span class="den">∂y</span></span></span>
+    <span>)</span>
+  </div>
+
+  <div class="grid-3" data-anim="4" style="margin-top:22px">
+    <article class="card" data-t="1">
+      <div class="card-k">Componente en i</div>
+      <div class="eq is-sm is-bare" style="justify-content:flex-start;font-size:21px;margin-bottom:10px">
+        <span class="frac"><span class="num">∂R</span><span class="den">∂y</span></span> − <span class="frac"><span class="num">∂Q</span><span class="den">∂z</span></span>
+      </div>
+      <p class="card-p">La derivada de R respecto a y, menos la derivada de Q respecto a z.</p>
+    </article>
+
+    <article class="card is-magenta" data-t="2">
+      <div class="card-k">Componente en j &nbsp;·&nbsp; ¡ojo!</div>
+      <div class="eq is-sm is-bare" style="justify-content:flex-start;font-size:21px;margin-bottom:10px">
+        <span class="hl-m">−</span>&nbsp;(<span class="frac"><span class="num">∂R</span><span class="den">∂x</span></span> − <span class="frac"><span class="num">∂P</span><span class="den">∂z</span></span>)
+      </div>
+      <p class="card-p">Lleva un <b>signo negativo por la posición del cofactor</b>. Se escribe "menos, entre paréntesis, ∂R/∂x menos ∂P/∂z".</p>
+    </article>
+
+    <article class="card is-violet" data-t="3">
+      <div class="card-k">Componente en k</div>
+      <div class="eq is-sm is-bare" style="justify-content:flex-start;font-size:21px;margin-bottom:10px">
+        <span class="frac"><span class="num">∂Q</span><span class="den">∂x</span></span> − <span class="frac"><span class="num">∂P</span><span class="den">∂y</span></span>
+      </div>
+      <p class="card-p">La derivada de Q respecto a x, menos la derivada de P respecto a y.</p>
+    </article>
+  </div>
+
+  <span class="step-hint" style="margin-top:14px">clic para avanzar</span>
+  </div><!-- /.formula-wrap -->
+
+  <div class="slide-notes" hidden>
+    <p><em>"Al resolver el determinante por cofactores a lo largo de la primera fila, obtenemos esta expresión. La componente en i es la derivada de R respecto a y, menos la derivada de Q respecto a z. La componente en j es la derivada de P respecto a z, menos la derivada de R respecto a x —y aquí hay un detalle importante: esta componente lleva un signo negativo por la posición del cofactor, así que en realidad escribimos menos, entre paréntesis, la derivada de R respecto a x menos la derivada de P respecto a z. Y la componente en k es la derivada de Q respecto a x, menos la derivada de P respecto a y."</em></p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ 13 · ERRORES ═══════════════════════════ -->
+<section class="slide" data-bg="quiet" data-transition="recede" data-anim-style="flip" data-section="Bloque 03 · Cálculo" data-title="Los tres errores más comunes" data-who="Integrante 3">
+  <div class="slide-head">
+    <span class="eyebrow is-magenta" data-anim="1">Lo que más se equivoca al calcular</span>
+    <h2 class="s-title" data-anim="2">Tres errores típicos</h2>
+  </div>
+
+  <div class="grid-3" data-anim="3" style="margin-top:36px" data-steps="3" data-step="0" role="button" tabindex="0">
+    <article class="card is-magenta" data-t="1">
+      <div class="card-k"><span class="numtag" style="--accent-c:var(--color-accent)">1</span> El signo de j</div>
+      <div class="card-t" style="margin-top:14px">Olvidar el negativo del cofactor</div>
+      <p class="card-p">Es el error más frecuente. La componente en j siempre arrastra el signo del cofactor, y hay que distribuirlo con cuidado.</p>
+    </article>
+
+    <article class="card is-magenta" data-t="2">
+      <div class="card-k"><span class="numtag" style="--accent-c:var(--color-accent)">2</span> El orden</div>
+      <div class="card-t" style="margin-top:14px">Confundir el orden de las derivadas</div>
+      <p class="card-p">Por ejemplo, escribir <span class="m">∂Q/∂z</span> en vez de <span class="m">∂R/∂z</span>. Cada componente tiene un par fijo.</p>
+    </article>
+
+    <article class="card is-magenta" data-t="3">
+      <div class="card-k"><span class="numtag" style="--accent-c:var(--color-accent)">3</span> La variable</div>
+      <div class="card-t" style="margin-top:14px">Derivar la variable equivocada</div>
+      <p class="card-p">Derivar <span class="m">P</span> respecto a <span class="m">x</span> cuando ese término ni siquiera aparece en la fórmula.</p>
+    </article>
+  </div>
+
+  <div class="callout" data-anim="5" style="margin-top:20px">
+    <b>Antídoto:</b> escribir el determinante completo antes de resolver. Memorizar solo el resultado final es lo que produce estos tres errores.
+  </div>
+
+  <div class="slide-notes" hidden>
+    <p><em>"Los errores más comunes al calcular el rotacional son tres: primero, olvidar el signo negativo de la componente j; segundo, confundir el orden de las derivadas, por ejemplo escribir ∂Q/∂z en vez de ∂R/∂z; y tercero, derivar la variable equivocada, derivando P respecto a x cuando ese término ni siquiera aparece en la fórmula. Por eso siempre recomendamos escribir el determinante completo antes de resolver, en lugar de memorizar directamente el resultado final."</em></p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ 14 · DIVISOR 04 ═══════════════════════════ -->
+<section class="slide is-divider" data-bg="strong" data-transition="wipe-up" data-anim-style="left" data-fx="scan" data-section="Bloque 04 · Propiedades" data-title="Bloque 04 — Interpretación y propiedades" data-who="Integrante 4">
+  <div class="divider-wrap">
+    <div class="divider-num" data-anim="1">04</div>
+    <div class="divider-body">
+      <span class="who" data-anim="2">Integrante 4</span>
+      <h2 data-anim="3">Interpretación<br>y propiedades</h2>
+      <p class="transition" data-anim="4">"Con el procedimiento claro, toca aprender a leer e interpretar los resultados que obtenemos."</p>
+    </div>
+  </div>
+  <div class="slide-notes" hidden>
+    <p><strong>Transición del integrante 7.</strong></p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ 15 · INTERPRETACIÓN ═══════════════════════════ -->
+<section class="slide" data-bg="quiet" data-transition="rise" data-anim-style="fall" data-section="Bloque 04 · Propiedades" data-title="Leer el resultado" data-who="Integrante 4">
+  <div class="split">
+    <div class="stack">
+      <span class="eyebrow" data-anim="1">Una vez calculado, hay que saber leerlo</span>
+      <h2 class="s-title" data-anim="2" style="font-size:46px">Del vector cero<br>a la función potencial</h2>
+      <p class="lead" data-anim="3">Si obtenemos el vector cero <span class="m">(0, 0, 0)</span> en <b>todo el dominio</b> del campo, decimos que el campo es <b>irrotacional</b>.</p>
+      <div class="callout is-violet" data-anim="4">
+        Esto tiene una consecuencia muy importante: bajo ciertas condiciones sobre el dominio, un campo irrotacional es también un <b>campo conservativo</b> — existe una función escalar <span class="m"><span class="v">f</span></span>, llamada <b>función potencial</b>, tal que <span class="m"><span class="vec">F</span></span> es exactamente el gradiente de <span class="m"><span class="v">f</span></span>.
+      </div>
+    </div>
+
+    <div class="stack">
+      <div class="card is-plain" data-anim="4" style="padding:34px">
+        <div class="card-k" style="justify-content:center">La cadena de implicaciones</div>
+        <!-- la cadena cae eslabón a eslabón, en el orden en que se razona -->
+        <div class="stack-sm" style="margin-top:22px;align-items:center" data-steps="4" data-step="0" data-period="2100" role="button" tabindex="0">
+          <div class="eq is-sm" style="width:100%" data-anim="5" data-t="1">∇ × F = 0</div>
+          <span style="color:var(--color-primary);font-size:20px" data-anim="5">↓</span>
+          <div class="eq is-sm" style="width:100%" data-anim="6" data-t="2">campo <span class="hl">irrotacional</span></div>
+          <span style="color:var(--color-primary);font-size:20px" data-anim="6">↓</span>
+          <div class="eq is-sm" style="width:100%" data-anim="7" data-t="3">campo <span class="hl">conservativo</span> <span class="dim" style="font-size:13px">(dominio adecuado)</span></div>
+          <span style="color:var(--color-primary);font-size:20px" data-anim="7">↓</span>
+          <div class="eq is-sm" style="width:100%" data-anim="8" data-t="4">existe <span class="hl-v">f</span> &nbsp;tal que&nbsp; <span class="hl-v">F = ∇f</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-notes" hidden>
+    <p><em>"Una vez que calculamos el rotacional, el resultado hay que saber interpretarlo. Si obtenemos el vector cero, (0, 0, 0), en todo el dominio del campo, decimos que el campo es irrotacional. Esto tiene una consecuencia muy importante: bajo ciertas condiciones sobre el dominio, un campo irrotacional es también un campo conservativo, es decir, existe una función escalar f, llamada función potencial, tal que F es exactamente el gradiente de f."</em></p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ 16 · PROPIEDADES ═══════════════════════════ -->
+<section class="slide" data-bg="quiet" data-transition="push" data-anim-style="left" data-section="Bloque 04 · Propiedades" data-title="Las tres propiedades fundamentales" data-who="Integrante 4">
+  <div class="slide-head">
+    <span class="eyebrow" data-anim="1">Se cumplen siempre, para cualquier campo suficientemente diferenciable</span>
+    <h2 class="s-title" data-anim="2" style="font-size:46px">Tres propiedades que sirven como prueba rápida</h2>
+  </div>
+
+  <div class="stack-sm" data-anim="3" style="margin-top:30px" data-steps="3" data-step="0" role="button" tabindex="0">
+    <article class="card" data-t="1" style="display:grid;grid-template-columns:auto 1fr 1.1fr;gap:26px;align-items:center;padding:22px 26px">
+      <span class="numtag">1</span>
+      <div class="eq is-bare" style="justify-content:flex-start;font-size:26px">rot(∇<span class="hl-v">f</span>) = <span class="hl">∇ × (∇<span class="hl-v">f</span>) = 0</span></div>
+      <p class="card-p">El rotacional del gradiente de cualquier función escalar es <b>siempre el vector cero</b>. Es el criterio que usamos: si el rotacional da cero, el campo <b>podría provenir de un potencial</b>.</p>
+    </article>
+
+    <article class="card is-violet" data-t="2" style="display:grid;grid-template-columns:auto 1fr 1.1fr;gap:26px;align-items:center;padding:22px 26px">
+      <span class="numtag" style="--accent-c:var(--color-secondary)">2</span>
+      <div class="eq is-bare" style="justify-content:flex-start;font-size:26px">div(∇ × F) = <span class="hl-v">∇ · (∇ × F) = 0</span></div>
+      <p class="card-p">Todo campo que se obtiene como rotacional de otro es automáticamente un <b>campo sin fuentes ni sumideros</b>. Muy usado en electromagnetismo.</p>
+    </article>
+
+    <article class="card is-magenta" data-t="3" style="display:grid;grid-template-columns:auto 1fr 1.1fr;gap:26px;align-items:center;padding:22px 26px">
+      <span class="numtag" style="--accent-c:var(--color-accent)">3</span>
+      <div class="eq is-bare" style="justify-content:flex-start;font-size:24px">∇ × (<span class="hl-m">a</span>F + <span class="hl-m">b</span>G) = <span class="hl-m">a</span>(∇ × F) + <span class="hl-m">b</span>(∇ × G)</div>
+      <p class="card-p"><b>Linealidad.</b> El rotacional de una combinación de campos es la misma combinación de sus rotacionales individuales.</p>
+    </article>
+  </div>
+
+  <div class="slide-notes" hidden>
+    <p><em>"Esto nos lleva a dos propiedades fundamentales del rotacional que se cumplen siempre, para cualquier campo suficientemente diferenciable. La primera es que el rotacional del gradiente de cualquier función escalar f es siempre el vector cero. Esta propiedad es justamente la que usamos como criterio: si al calcular el rotacional de un campo obtenemos cero, eso sugiere que el campo podría provenir de un potencial, es decir, ser conservativo."</em></p>
+    <p><em>"La segunda propiedad relaciona al rotacional con la divergencia: la divergencia de un rotacional es siempre cero. Esto significa que todo campo que se obtiene como rotacional de otro campo es automáticamente un campo sin fuentes ni sumideros, lo cual es muy usado en electromagnetismo. Por último, el rotacional es un operador lineal."</em></p>
+    <p><strong>Cierre del bloque:</strong> estas propiedades no son teoría abstracta — son <b>pruebas rápidas</b> al resolver ejercicios.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ 17 · DIVISOR 05 ═══════════════════════════ -->
+<section class="slide is-divider" data-bg="strong" data-transition="tilt" data-anim-style="left" data-fx="scan" data-section="Bloque 05 · Aplicaciones" data-title="Bloque 05 — Aplicaciones reales" data-who="Integrante 5">
+  <div class="divider-wrap">
+    <div class="divider-num" data-anim="1">05</div>
+    <div class="divider-body">
+      <span class="who" data-anim="2">Integrante 5</span>
+      <h2 data-anim="3">Aplicaciones reales<br>del rotacional</h2>
+      <p class="transition" data-anim="4">"Toda esta teoría cobra sentido cuando la vemos aplicada en situaciones reales."</p>
+    </div>
+  </div>
+  <div class="slide-notes" hidden>
+    <p><strong>Transición del integrante 7.</strong></p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ 18 · MAXWELL ═══════════════════════════ -->
+<section class="slide" data-bg="quiet" data-transition="iris" data-anim-style="right" data-section="Bloque 05 · Aplicaciones" data-title="Electromagnetismo — Maxwell" data-who="Integrante 5">
+  <div class="split-narrow">
+    <div class="canvas-frame" style="height:420px;border-color:rgba(123,97,255,.4)">
+      <canvas data-field="ampere" data-density="18"></canvas>
+      <span class="cf-label" style="color:#a58cff;border-color:rgba(123,97,255,.45)">Ley de Ampère</span>
+      <span class="cf-eq">B circula alrededor del conductor</span>
+    </div>
+
+    <div class="stack">
+      <span class="eyebrow is-violet" data-anim="1">La aplicación más conocida</span>
+      <h2 class="s-title" data-anim="2" style="font-size:46px">Ecuaciones<br>de Maxwell</h2>
+
+      <div class="card is-violet" data-anim="3">
+        <div class="card-k">Ley de Faraday · forma diferencial</div>
+        <div class="eq is-bare" style="justify-content:flex-start;font-size:30px;margin:12px 0 14px">
+          <span class="hl-v">∇ × E</span> = − <span class="frac"><span class="num">∂B</span><span class="den">∂t</span></span>
+        </div>
+        <p class="card-p">Un campo magnético que <b>cambia en el tiempo</b> genera un campo eléctrico que <b>circula</b>. Es la base del funcionamiento de <b>generadores eléctricos y transformadores</b>.</p>
+      </div>
+
+      <div class="card" data-anim="4">
+        <div class="card-k">Ley de Ampère–Maxwell</div>
+        <p class="card-p" style="margin-top:6px">De forma análoga, relaciona <span class="m">∇ × B</span> con la <b>corriente eléctrica</b> y la variación del campo eléctrico en el tiempo: explica cómo las corrientes generan campos magnéticos que circulan a su alrededor.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-notes" hidden>
+    <p><em>"La más conocida está en el electromagnetismo, dentro de las ecuaciones de Maxwell. La Ley de Faraday, en su forma diferencial, establece que el rotacional del campo eléctrico E es igual a menos la derivada temporal del campo magnético B. Esta ecuación explica, matemáticamente, por qué un campo magnético que cambia en el tiempo genera un campo eléctrico que circula, y es la base del funcionamiento de generadores eléctricos y transformadores."</em></p>
+    <p><em>"De forma análoga, la Ley de Ampère-Maxwell relaciona el rotacional del campo magnético B con la corriente eléctrica y la variación del campo eléctrico en el tiempo, explicando cómo las corrientes generan campos magnéticos que circulan a su alrededor."</em></p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ 19 · VORTICIDAD ═══════════════════════════ -->
+<section class="slide" data-bg="quiet" data-transition="spin" data-anim-style="left" data-section="Bloque 05 · Aplicaciones" data-title="Fluidos — vorticidad" data-who="Integrante 5">
+  <div class="split-wide">
+    <div class="stack">
+      <span class="eyebrow is-magenta" data-anim="1">Mecánica de fluidos</span>
+      <h2 class="s-title" data-anim="2" style="font-size:46px">Vorticidad</h2>
+      <div class="eq" data-anim="3" style="justify-content:flex-start;font-size:24px">
+        <span class="dim">vorticidad</span> &nbsp;=&nbsp; <span class="hl-m">∇ × v</span>
+      </div>
+      <p class="lead" data-anim="4">La vorticidad de un fluido se define <b>precisamente</b> como el rotacional del campo de velocidades del fluido.</p>
+      <div class="chips" data-anim="5">
+        <span class="chip is-magenta">Remo en el agua</span>
+        <span class="chip is-magenta">Huracanes</span>
+        <span class="chip is-magenta">Tornados</span>
+      </div>
+      <div class="callout is-magenta" data-anim="6">
+        Zonas con <b>alta vorticidad</b> son zonas con remolinos intensos. En un huracán o un tornado, el rotacional del viento es <b>extremadamente alto cerca del centro</b>.
+      </div>
+    </div>
+
+    <div class="stack-sm" style="gap:16px">
+      <div class="video-frame" style="height:308px">
+        <video src="media/vorticidad.mp4" muted loop playsinline preload="metadata" aria-label="Visualización del rotacional de un campo vectorial"></video>
+      </div>
+      <div class="canvas-frame is-on" style="height:116px">
+        <canvas data-field="turbulence" data-density="16"></canvas>
+        <span class="cf-label">Remolinos de ambos sentidos</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-notes" hidden>
+    <p><em>"Otra aplicación fundamental está en la mecánica de fluidos, en el concepto de vorticidad. La vorticidad de un fluido se define precisamente como el rotacional del campo de velocidades del fluido. Zonas con alta vorticidad son zonas con remolinos intensos, como los que se forman detrás de un remo al moverlo en el agua, o a mayor escala, en fenómenos como huracanes y tornados, donde el rotacional del viento es extremadamente alto cerca del centro."</em></p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ 20 · AERODINÁMICA ═══════════════════════════ -->
+<section class="slide" data-bg="quiet" data-transition="wipe-up" data-anim-style="rise" data-section="Bloque 05 · Aplicaciones" data-title="Aerodinámica — sustentación" data-who="Integrante 5">
+  <div class="slide-head">
+    <span class="eyebrow" data-anim="1">Aerodinámica</span>
+    <h2 class="s-title" data-anim="2" style="font-size:44px">Por qué un avión se mantiene en el aire</h2>
+  </div>
+
+  <div class="canvas-frame" data-anim="3" style="height:190px;margin-top:22px">
+    <canvas data-field="airfoil" data-shape="airfoil" data-density="22"></canvas>
+    <span class="cf-label">Circulación alrededor del perfil</span>
+    <span class="cf-eq">el flujo pasa más rápido por arriba</span>
+  </div>
+
+  <div class="grid-3" data-anim="4" style="margin-top:22px" data-steps="3" data-step="0" role="button" tabindex="0">
+    <article class="card" data-t="1">
+      <div class="card-k">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+          <path d="M2 15c5-1 9-4 13-8 3 2 5 4 7 7-6 2-13 3-20 1z"/>
+        </svg>
+        Circulación
+      </div>
+      <div class="card-t">Alrededor del perfil del ala</div>
+      <p class="card-p">Se genera una <b>circulación de aire</b> alrededor del perfil, relacionada con el rotacional del campo de velocidades del aire.</p>
+    </article>
+
+    <article class="card is-violet" data-t="2">
+      <div class="card-k">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+          <path d="M12 21V6"/><path d="M7 11l5-5 5 5"/><path d="M4 21h16"/>
+        </svg>
+        Sustentación
+      </div>
+      <div class="card-t">Uno de los factores</div>
+      <p class="card-p">Junto con la <b>diferencia de presión</b>, esa circulación es lo que permite que el avión se mantenga en el aire.</p>
+    </article>
+
+    <article class="card is-magenta" data-t="3">
+      <div class="card-k">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+          <path d="M12 12c0-2.2 1.8-4 4-4s4 1.8 4 4-1.8 4-4 4h-4c-3.3 0-6-2.7-6-6s2.7-6 6-6"/>
+          <path d="M4.5 17.5 7 15l2.5 2.5"/>
+        </svg>
+        La regla general
+      </div>
+      <div class="card-t">Donde hay giro, está el rotacional</div>
+      <p class="card-p">Donde hay <b>giro, remolino o circulación</b> en un campo físico, ahí está el rotacional trabajando detrás.</p>
+    </article>
+  </div>
+
+  <div class="callout is-violet" data-anim="5" style="margin-top:20px">
+    El rotacional <b>no es solo un ejercicio de cálculo</b>: aparece en las tres grandes familias de fenómenos que acabamos de ver — electromagnetismo, fluidos y aerodinámica.
+  </div>
+
+  <div class="slide-notes" hidden>
+    <p><em>"Por último, en aerodinámica, el rotacional explica en parte la sustentación de un ala de avión. Alrededor del perfil del ala se genera una circulación de aire; esa circulación está relacionada con el rotacional del campo de velocidades del aire alrededor del ala, y es uno de los factores, junto con la diferencia de presión, que permite que un avión se mantenga en el aire. En resumen: donde hay giro, remolino o circulación en un campo físico, ahí está el rotacional trabajando detrás."</em></p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ 21 · DIVISOR 06 ═══════════════════════════ -->
+<section class="slide is-divider" data-bg="strong" data-transition="drop" data-anim-style="left" data-fx="scan" data-section="Bloque 06 · Apoyo visual" data-title="Bloque 06 — Gráficos y esquemas" data-who="Integrante 6">
+  <div class="divider-wrap">
+    <div class="divider-num" data-anim="1">06</div>
+    <div class="divider-body">
+      <span class="who" data-anim="2">Integrante 6</span>
+      <h2 data-anim="3">Gráficos y<br>esquemas de apoyo</h2>
+      <p class="transition" data-anim="4">"Para reforzar todo lo anterior, apoyémonos en algunos esquemas visuales."</p>
+    </div>
+  </div>
+  <div class="slide-notes" hidden>
+    <p><strong>Transición del integrante 7.</strong> Coordinar con los integrantes 3 y 5 para que los esquemas coincidan con lo que ellos explican.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ 22 · COMPARACIÓN VISUAL ═══════════════════════════ -->
+<section class="slide" data-bg="quiet" data-transition="unfold" data-anim-style="fan" data-section="Bloque 06 · Apoyo visual" data-title="Comparación visual de campos" data-who="Integrante 6">
+  <div class="slide-head">
+    <span class="eyebrow" data-anim="1">Ver con imágenes lo que ya se explicó en teoría</span>
+    <h2 class="s-title" data-anim="2" style="font-size:44px">Campo irrotacional vs. campo con rotacional</h2>
+  </div>
+
+  <div class="grid-2" data-anim="3" style="margin-top:26px;gap:30px">
+    <div class="stack-sm">
+      <div class="canvas-frame is-off" style="height:340px">
+        <canvas data-field="gradient" data-density="22"></canvas>
+        <span class="cf-label">Campo gradiente · flujo ordenado</span>
+        <span class="cf-eq">F = (y, x) &nbsp;→&nbsp; ∇ × F = 0</span>
+      </div>
+      <p class="card-p">Las flechas se organizan sin cerrar ningún circuito: una rueda de paletas colocada en cualquier punto <b>no giraría</b>. Este campo proviene del potencial <span class="m"><span class="v">f</span> = <span class="v">xy</span></span>.</p>
+    </div>
+
+    <div class="stack-sm">
+      <div class="canvas-frame is-on" style="height:340px">
+        <canvas data-field="vortex" data-wheel="true" data-density="22"></canvas>
+        <span class="cf-label">Remolino · rotación visible</span>
+        <span class="cf-eq">F = (−y, x) &nbsp;→&nbsp; ∇ × F = (0, 0, 2)</span>
+      </div>
+      <p class="card-p">Las flechas giran alrededor de un punto central. La <b>intensidad del giro de la rueda</b> representa la magnitud del rotacional en esa zona.</p>
+    </div>
+  </div>
+
+  <div class="slide-notes" hidden>
+    <p><em>"En la primera comparación tenemos dos campos vectoriales: a la izquierda, un campo con flujo laminar, donde todas las flechas avanzan en la misma dirección de forma ordenada; ese es un ejemplo de campo irrotacional, con rotacional igual a cero. A la derecha, un campo con un remolino claramente visible, donde las flechas giran alrededor de un punto central; ese es un campo con rotacional distinto de cero, y la intensidad del color en el centro representa la magnitud de ese rotacional."</em></p>
+    <p><em>"El segundo esquema resume visualmente el procedimiento de cálculo: el determinante 3 por 3, con los vectores unitarios, las derivadas parciales y las componentes del campo. Tenerlo en pantalla ayuda a que el público siga el cálculo sin perderse en los signos."</em> — <strong>ver diapositiva 11</strong>, donde cada fila tiene su propio color.</p>
+    <p><em>"Por último, mostramos un esquema de las aplicaciones: las líneas de campo magnético cerradas alrededor de un conductor con corriente, ilustrando la Ley de Ampère; y un diagrama simplificado de un vórtice de fluido."</em> — <strong>ver diapositivas 18 y 19.</strong></p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ 23 · DIVISOR EJEMPLOS ═══════════════════════════ -->
+<section class="slide is-divider" data-bg="strong" data-transition="zoom" data-anim-style="rise" data-fx="scan" data-section="Ejemplos resueltos" data-title="Ejemplos resueltos — trabajo colectivo" data-who="Todo el equipo">
+  <div class="divider-wrap">
+    <div class="divider-num" style="-webkit-text-stroke-color:rgba(255,0,255,.55)" data-anim="1">＋</div>
+    <div class="divider-body">
+      <span class="who" data-anim="2">Trabajo colectivo · todo el equipo debe dominarlos</span>
+      <h2 data-anim="3">Ejemplos<br>resueltos</h2>
+      <p class="transition" style="border-left-color:var(--color-accent)" data-anim="4">"Y para cerrar la parte de contenido, resolvamos juntos algunos ejercicios que integran todo lo que hemos visto."</p>
+    </div>
+  </div>
+  <div class="slide-notes" hidden>
+    <p><strong>Importante:</strong> todos los integrantes deben poder resolver y explicar estos tres ejercicios frente al público, ya que cualquiera puede recibir una pregunta sobre ellos durante la ronda de preguntas.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ 24 · EJEMPLO 1 ═══════════════════════════ -->
+<section class="slide" data-bg="quiet" data-transition="push" data-anim-style="right" data-section="Ejemplos resueltos" data-title="Ejemplo 1 — F = (yz, xz, xy)" data-who="Todo el equipo">
+  <div class="slide-head">
+    <span class="eyebrow" data-anim="1">Ejemplo 1 · campo irrotacional</span>
+    <h2 class="s-title" data-anim="2" style="font-size:42px">Sea <span class="m"><span class="vec">F</span>(<span class="v">x, y, z</span>) = (<span class="v">yz</span>, <span class="v">xz</span>, <span class="v">xy</span>)</span>. Calcular ∇ × F.</h2>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 0.95fr 0.85fr;gap:26px;margin-top:20px;align-items:start">
+    <div class="stack-sm" data-anim="3">
+      <div class="eq is-sm" style="justify-content:flex-start">
+        <span class="m"><span class="hl">P</span> = <span class="v">yz</span>,&nbsp; <span class="hl">Q</span> = <span class="v">xz</span>,&nbsp; <span class="hl">R</span> = <span class="v">xy</span></span>
+      </div>
+      <ol class="steps" data-steps="3" data-step="0" data-period="2400" role="button" tabindex="0">
+        <li data-t="1"><span>
+          <span class="st-label">Componente i</span>
+          <span class="st-math"><span class="frac"><span class="num">∂R</span><span class="den">∂y</span></span> − <span class="frac"><span class="num">∂Q</span><span class="den">∂z</span></span> = x − x = <span class="res">0</span></span>
+        </span></li>
+        <li data-t="2"><span>
+          <span class="st-label">Componente j &nbsp;(con el signo del cofactor)</span>
+          <span class="st-math">−(<span class="frac"><span class="num">∂R</span><span class="den">∂x</span></span> − <span class="frac"><span class="num">∂P</span><span class="den">∂z</span></span>) = −(y − y) = <span class="res">0</span></span>
+        </span></li>
+        <li data-t="3"><span>
+          <span class="st-label">Componente k</span>
+          <span class="st-math"><span class="frac"><span class="num">∂Q</span><span class="den">∂x</span></span> − <span class="frac"><span class="num">∂P</span><span class="den">∂y</span></span> = z − z = <span class="res">0</span></span>
+        </span></li>
+      </ol>
+      <div class="result">
+        <div class="stack-sm" style="gap:6px">
+          <span class="r-label">Resultado</span>
+          <span class="r-math">∇ × F = (0, 0, 0)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="stack-sm" data-anim="4">
+      <div class="canvas-frame is-off" style="height:352px">
+        <canvas data-field="gradient" data-mode="tracer" data-density="16"></canvas>
+        <span class="cf-label">Se deforma, pero no gira</span>
+        <span class="cf-eq">corte z = 1 → F = (y, x)</span>
+      </div>
+      <p class="card-p" style="font-size:14px">Los dos brazos de la cruz giran en <b>sentidos opuestos</b> y se cierran uno contra otro: hay deformación, pero la <b>rotación neta es cero</b>.</p>
+    </div>
+
+    <div class="stack" data-anim="5">
+      <div class="callout">
+        <b>Interpretación en voz alta:</b> "Este resultado nos dice que F es un campo irrotacional en todo el espacio. De hecho, este campo proviene de la función potencial <span class="m"><span class="v">f</span>(<span class="v">x, y, z</span>) = <span class="v">xyz</span></span>, ya que su gradiente coincide exactamente con F."
+      </div>
+      <div class="callout is-violet">
+        Es un buen ejemplo para conectar con la propiedad <span class="m">rot(∇<span class="v">f</span>) = 0</span>: si el rotacional da cero, el campo <b>puede provenir de un potencial</b>.
+      </div>
+      <div class="chips">
+        <span class="chip is-on">Conecta con la Propiedad 1</span>
+        <span class="chip is-on">Campo conservativo</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-notes" hidden>
+    <p><strong>Ejemplo 1 — campo irrotacional.</strong> <em>"Este resultado nos dice que F es un campo irrotacional en todo el espacio. De hecho, este campo proviene de la función potencial f(x, y, z) = xyz, ya que su gradiente coincide exactamente con F. Es un buen ejemplo para conectar con la propiedad de que rot(∇f) = 0."</em></p>
+    <p><strong>Comprobación rápida si preguntan:</strong> ∇(xyz) = (yz, xz, xy) = F. Exactamente el campo del enunciado.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ 25 · EJEMPLO 2 ═══════════════════════════ -->
+<section class="slide" data-bg="quiet" data-transition="spin" data-anim-style="pop" data-section="Ejemplos resueltos" data-title="Ejemplo 2 — F = (−y, x, 0)" data-who="Todo el equipo">
+  <div class="slide-head">
+    <span class="eyebrow is-magenta" data-anim="1">Ejemplo 2 · rotacional distinto de cero</span>
+    <h2 class="s-title" data-anim="2" style="font-size:42px">Sea <span class="m"><span class="vec">F</span>(<span class="v">x, y, z</span>) = (−<span class="v">y</span>, <span class="v">x</span>, 0)</span>. Calcular ∇ × F.</h2>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 0.95fr 0.85fr;gap:28px;margin-top:22px;align-items:start">
+    <div class="stack-sm" data-anim="3">
+      <div class="eq is-sm" style="justify-content:flex-start">
+        <span class="m"><span class="hl">P</span> = −<span class="v">y</span>,&nbsp; <span class="hl">Q</span> = <span class="v">x</span>,&nbsp; <span class="hl">R</span> = 0</span>
+      </div>
+      <ol class="steps" data-steps="3" data-step="0" data-period="2400" role="button" tabindex="0">
+        <li data-t="1"><span>
+          <span class="st-label">Componente i</span>
+          <span class="st-math">0 − 0 = <span class="res">0</span></span>
+        </span></li>
+        <li data-t="2"><span>
+          <span class="st-label">Componente j</span>
+          <span class="st-math">−(0 − 0) = <span class="res">0</span></span>
+        </span></li>
+        <li data-t="3"><span>
+          <span class="st-label">Componente k</span>
+          <span class="st-math"><span class="frac"><span class="num">∂Q</span><span class="den">∂x</span></span> − <span class="frac"><span class="num">∂P</span><span class="den">∂y</span></span> = 1 − (−1) = <span class="res-m">2</span></span>
+        </span></li>
+      </ol>
+      <div class="result is-magenta">
+        <div class="stack-sm" style="gap:6px">
+          <span class="r-label">Resultado</span>
+          <span class="r-math">∇ × F = (0, 0, 2)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="stack-sm" data-anim="4">
+      <div class="canvas-frame is-on" style="height:352px">
+        <canvas data-field="vortex" data-mode="tracer" data-density="16"></canvas>
+        <span class="cf-label">Gira como un sólido rígido</span>
+        <span class="cf-eq">mismo experimento que el ejemplo 1</span>
+      </div>
+      <p class="card-p" style="font-size:14px">Aquí los dos brazos giran <b>en el mismo sentido</b> y mantienen su ángulo recto: la mancha no se deforma, <b>rota</b>.</p>
+    </div>
+
+    <div class="stack" data-anim="5">
+      <div class="callout is-magenta">
+        <b>Interpretación en voz alta:</b> "Este campo describe justamente una rotación en el plano xy, como un remolino centrado en el origen. El rotacional apunta en la dirección <b>k</b>, perpendicular al plano de giro, con magnitud constante 2."
+      </div>
+      <div class="stat">
+        <span class="v" style="color:#ff6bff">2</span>
+        <span class="k">magnitud constante del rotacional,<br>en todo punto del plano</span>
+      </div>
+      <div class="callout">
+        F literalmente <b>hace girar los puntos</b> alrededor del eje z, y el rotacional detecta exactamente eso.
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-notes" hidden>
+    <p><strong>Ejemplo 2 — rotacional distinto de cero.</strong> <em>"Este campo describe justamente una rotación en el plano xy, como un remolino centrado en el origen. El rotacional apunta en la dirección k, es decir, perpendicular al plano de giro, con magnitud constante 2. Esto confirma la intuición: F literalmente hace girar los puntos alrededor del eje z, y el rotacional detecta exactamente eso."</em></p>
+    <p><strong>Enlace con el bloque 02:</strong> es el mismo campo de la animación de la rueda de paletas — la rueda gira porque aquí el rotacional vale 2.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ 26 · EJEMPLO 3 ═══════════════════════════ -->
+<section class="slide" data-bg="quiet" data-transition="tilt" data-anim-style="rise" data-section="Ejemplos resueltos" data-title="Ejemplo 3 — F = (x²y, −xz, yz²)" data-who="Todo el equipo">
+  <div class="slide-head">
+    <span class="eyebrow is-magenta" data-anim="1">Ejemplo 3 · aplicación combinada</span>
+    <h2 class="s-title" data-anim="2" style="font-size:42px">Sea <span class="m"><span class="vec">F</span>(<span class="v">x, y, z</span>) = (<span class="v">x²y</span>, −<span class="v">xz</span>, <span class="v">yz²</span>)</span>. Calcular ∇ × F.</h2>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 0.95fr 0.85fr;gap:26px;margin-top:20px;align-items:start">
+    <div class="stack-sm" data-anim="3">
+      <div class="eq is-sm" style="justify-content:flex-start">
+        <span class="m"><span class="hl">P</span> = <span class="v">x²y</span>,&nbsp; <span class="hl">Q</span> = −<span class="v">xz</span>,&nbsp; <span class="hl">R</span> = <span class="v">yz²</span></span>
+      </div>
+      <ol class="steps" data-steps="3" data-step="0" data-period="2400" role="button" tabindex="0">
+        <li data-t="1"><span>
+          <span class="st-label">Componente i</span>
+          <span class="st-math"><span class="frac"><span class="num">∂R</span><span class="den">∂y</span></span> − <span class="frac"><span class="num">∂Q</span><span class="den">∂z</span></span> = z² − (−x) = <span class="res-m">z² + x</span></span>
+        </span></li>
+        <li data-t="2"><span>
+          <span class="st-label">Componente j</span>
+          <span class="st-math">−(<span class="frac"><span class="num">∂R</span><span class="den">∂x</span></span> − <span class="frac"><span class="num">∂P</span><span class="den">∂z</span></span>) = −(0 − 0) = <span class="res">0</span></span>
+        </span></li>
+        <li data-t="3"><span>
+          <span class="st-label">Componente k</span>
+          <span class="st-math"><span class="frac"><span class="num">∂Q</span><span class="den">∂x</span></span> − <span class="frac"><span class="num">∂P</span><span class="den">∂y</span></span> = −z − x²  &nbsp;→&nbsp; <span class="res-m">−z − x²</span></span>
+        </span></li>
+      </ol>
+      <div class="result is-magenta">
+        <div class="stack-sm" style="gap:6px">
+          <span class="r-label">Resultado</span>
+          <span class="r-math" style="font-size:24px">∇ × F = (z² + x, 0, −z − x²)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="stack-sm" data-anim="4">
+      <div class="canvas-frame is-on" style="height:352px">
+        <canvas data-curlmap="ex3" data-mode="rotor" data-field="general"></canvas>
+        <span class="cf-label">Componente k sobre el plano xz</span>
+        <span class="cf-eq">−z − x²</span>
+      </div>
+      <p class="card-p" style="font-size:14px">Cada marcador gira a <span class="m">ω = ½·rot F</span> medido en <b>su propio punto</b>: cambia de velocidad y <span style="color:#ff6bff">de sentido</span> según dónde esté.</p>
+    </div>
+
+    <div class="stack" data-anim="5">
+      <div class="callout is-magenta">
+        <b>Interpretación en voz alta:</b> "El resultado no es el vector cero, así que F es un campo con rotación: <b>no es conservativo</b>. En la mayoría de los casos reales el rotacional no se anula."
+      </div>
+      <div class="callout">
+        Y por eso el operador es tan relevante: mide <b>exactamente cuánta rotación hay y en qué dirección</b>, punto por punto del espacio.
+      </div>
+      <div class="chips">
+        <span class="chip is-magenta">No conservativo</span>
+        <span class="chip is-magenta">Depende del punto</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-notes" hidden>
+    <p><strong>Ejemplo 3 — campo más general.</strong> <em>"En este caso el resultado no es el vector cero, así que F es un campo con rotación: no es conservativo. Este ejemplo es útil para mostrar que, en la mayoría de los casos reales, el rotacional no se anula, y por eso el operador es tan relevante: nos permite medir exactamente cuánta rotación hay y en qué dirección, punto por punto del espacio."</em></p>
+    <p><strong>Nota:</strong> a diferencia del ejemplo 2, aquí el rotacional <b>cambia de un punto a otro</b> — depende de x y de z.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ 27 · CIERRE ═══════════════════════════ -->
+<section class="slide" data-bg="quiet" data-transition="recede" data-anim-style="fan" data-section="Cierre" data-title="Síntesis final" data-who="Integrante 7">
+  <div class="slide-head">
+    <span class="eyebrow" data-anim="1">Retomemos la pregunta del inicio</span>
+    <h2 class="s-title" data-anim="2" style="font-size:46px">¿Por qué es necesario<br>utilizar el rotacional?</h2>
+  </div>
+
+  <p class="lead" data-anim="3" style="margin-top:20px">Porque nos permite cuantificar algo que solo con la intuición no podríamos medir con precisión: <b style="color:#f0f2ff">la tendencia de un campo vectorial a rotar alrededor de un punto</b>.</p>
+
+  <div class="close-grid" data-anim="4" style="margin-top:32px" data-steps="3" data-step="0" role="button" tabindex="0">
+    <div class="close-card" data-t="1">
+      <div class="k">Se calcula</div>
+      <p class="t">Mediante un <b>determinante simbólico</b>, armado con los vectores unitarios, las derivadas parciales y las componentes del campo.</p>
+    </div>
+    <div class="close-card" data-t="2">
+      <div class="k">Se interpreta</div>
+      <p class="t">Rotacional igual al vector cero → campo <b>irrotacional</b>, que bajo ciertas condiciones es además <b>conservativo</b>: proviene de una función potencial.</p>
+    </div>
+    <div class="close-card" data-t="3">
+      <div class="k">Se verifica</div>
+      <p class="t">Tres propiedades que se cumplen siempre: <b>rot(∇f) = 0</b>, <b>div(rot F) = 0</b> y la <b>linealidad</b> del operador.</p>
+    </div>
+  </div>
+
+  <div class="callout is-violet" data-anim="5" style="margin-top:28px">
+    Y nada de esto se queda en el papel: está en las <b>ecuaciones de Maxwell</b>, en la <b>vorticidad de los fluidos</b> y en la <b>aerodinámica</b> que mantiene un avión en el aire.
+  </div>
+
+  <div class="slide-notes" hidden>
+    <p><em>"Para cerrar, retomemos la pregunta que nos hicimos al inicio: ¿por qué es necesario utilizar el rotacional? Porque nos permite cuantificar algo que solo con la intuición no podríamos medir con precisión: la tendencia de un campo vectorial a rotar alrededor de un punto. A lo largo de la charla vimos que este operador se calcula mediante un determinante simbólico, armado con los vectores unitarios, las derivadas parciales y las componentes del campo."</em></p>
+    <p><em>"También vimos cómo interpretar el resultado: un rotacional igual al vector cero nos indica un campo irrotacional, que bajo ciertas condiciones es además conservativo. Y repasamos tres propiedades que se cumplen siempre: que el rotacional de un gradiente es cero, que la divergencia de un rotacional también es siempre cero, y que el rotacional es un operador lineal. Estas propiedades no son solo teoría abstracta, son herramientas que usamos para verificar resultados y para reconocer rápidamente si un campo es conservativo."</em></p>
+    <p><em>"Y comprobamos que nada de esto se queda en el papel: el rotacional está presente en las ecuaciones de Maxwell, que explican cómo funcionan los generadores eléctricos y los transformadores; está presente en la vorticidad de los fluidos, que describe desde el remolino que deja un remo en el agua hasta fenómenos tan grandes como un huracán; y está presente en la aerodinámica, ayudando a explicar por qué un avión se mantiene en el aire."</em></p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ 28 · PREGUNTAS ═══════════════════════════ -->
+<section class="slide cover" data-bg="full" data-transition="iris" data-anim-style="flip" data-section="Cierre" data-title="Preguntas" data-who="Integrante 7">
+  <div class="cover-inner">
+    <span class="eyebrow" data-anim="1">Fin de la exposición</span>
+    <div class="cover-glyph" data-anim="2">∇ × F</div>
+    <h1 class="s-title" data-anim="3" style="font-size:68px">Quedamos atentos<br>a sus <span class="accent">preguntas</span></h1>
+    <p class="lead" data-anim="4">El rotacional traduce el giro de un campo en un objeto matemático preciso, calculable y con propiedades bien definidas.</p>
+    <div class="cover-meta" data-anim="5">
+      <span>Cálculo Vectorial</span><span class="sep"></span>
+      <span>7 integrantes</span><span class="sep"></span>
+      <span style="color:var(--color-primary)">Gracias por su atención</span>
+    </div>
+  </div>
+
+  <div class="slide-notes" hidden>
+    <p><em>"En resumen: el rotacional es una herramienta que traduce una idea física —el giro de un campo— en un objeto matemático preciso, calculable y con propiedades bien definidas, y que se usa constantemente en la física y la ingeniería modernas. Con esto concluimos nuestra exposición sobre el rotacional. Como equipo, quedamos atentos a sus preguntas y con gusto profundizamos en cualquier punto que quieran repasar."</em></p>
+    <p><strong>Moderación:</strong> redirigir cada pregunta al integrante correspondiente. Bloques 01–02 → definición y significado. Bloque 03 → cálculo y signos. Bloque 04 → propiedades. Bloque 05 → aplicaciones. Ejemplos → cualquiera del equipo.</p>
+  </div>
+</section>
+
+<div class="stage-fx" id="stage-fx" aria-hidden="true"></div>
+
+</main>
+</div>
+
+<!-- ═══════════════════════════ CROMO ═══════════════════════════ -->
+
+<nav class="deck-chrome nav" aria-label="Navegación de diapositivas">
+  <button class="nav-btn" id="btn-prev" type="button" aria-label="Diapositiva anterior">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+  </button>
+  <span class="nav-counter"><b id="cur">1</b> / <span id="tot">28</span></span>
+  <button class="nav-btn" id="btn-next" type="button" aria-label="Diapositiva siguiente">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+  </button>
+  <span class="nav-sep"></span>
+  <button class="nav-btn" id="btn-overview" type="button" aria-label="Vista general de diapositivas" aria-pressed="false">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="7" height="6" rx="1"/><rect x="14" y="4" width="7" height="6" rx="1"/><rect x="3" y="14" width="7" height="6" rx="1"/><rect x="14" y="14" width="7" height="6" rx="1"/></svg>
+  </button>
+  <button class="nav-btn" id="btn-notes" type="button" aria-label="Mostrar guion del expositor" aria-pressed="false">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 4h14v16H5z"/><path d="M8.5 8.5h7M8.5 12h7M8.5 15.5h4"/></svg>
+  </button>
+  <button class="nav-btn" id="btn-full" type="button" aria-label="Pantalla completa">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
+  </button>
+  <button class="nav-btn" id="btn-help" type="button" aria-label="Atajos de teclado">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.3a2.5 2.5 0 1 1 3.4 2.3c-.6.3-1 .9-1 1.6v.3"/><path d="M12 17h.01"/></svg>
+  </button>
+</nav>
+
+<aside class="notes" id="notes" aria-hidden="true" aria-label="Guion del expositor">
+  <div class="notes-head">
+    <span>Guion del expositor</span>
+    <span class="who" id="notes-who">—</span>
+    <span class="who" id="notes-title"></span>
+    <span class="timer" id="timer">00:00</span>
+  </div>
+  <div class="notes-body" id="notes-body"></div>
+</aside>
+
+<div class="overview" id="overview" aria-hidden="true" aria-label="Vista general">
+  <div class="overview-head">
+    <span>Vista general · 28 diapositivas</span>
+    <span style="margin-left:auto"><kbd>Esc</kbd> para cerrar</span>
+    <button class="nav-btn" id="overview-close" type="button" aria-label="Cerrar vista general" style="border:1px solid var(--color-border)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div class="overview-grid" id="overview-grid"></div>
+</div>
+
+<div class="help" id="help" role="dialog" aria-hidden="true" aria-label="Atajos de teclado">
+  <h3>Atajos de teclado</h3>
+  <dl>
+    <dt>→ ␣ ↓</dt><dd>Siguiente diapositiva</dd>
+    <dt>← ↑ ⌫</dt><dd>Diapositiva anterior</dd>
+    <dt>1 … 28</dt><dd>Ir a una diapositiva por número</dd>
+    <dt>Inicio / Fin</dt><dd>Primera / última diapositiva</dd>
+    <dt>N</dt><dd>Guion del expositor</dd>
+    <dt>O</dt><dd>Vista general de diapositivas</dd>
+    <dt>F</dt><dd>Pantalla completa</dd>
+    <dt>R</dt><dd>Reiniciar el cronómetro</dd>
+    <dt>Esc</dt><dd>Cerrar panel abierto</dd>
+  </dl>
+</div>
+
+<script src="js/backdrop.js?v=14"></script>
+<script src="js/field.js?v=14"></script>
+<script src="js/deck.js?v=14"></script>
+</body>
+</html>

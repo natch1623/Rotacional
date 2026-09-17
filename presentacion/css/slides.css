@@ -1,0 +1,827 @@
+/* ============================================================
+   COMPONENTES DE DIAPOSITIVA
+   ============================================================ */
+
+/* --- encabezados ------------------------------------------- */
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+}
+
+.eyebrow::before {
+  content: '';
+  width: 30px;
+  height: 1px;
+  background: currentColor;
+  box-shadow: 0 0 8px currentColor;
+}
+
+.eyebrow.is-violet { color: var(--color-secondary); }
+.eyebrow.is-magenta { color: var(--color-accent); }
+
+h1.s-title {
+  font-size: 86px;
+  font-weight: 600;
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+}
+
+h2.s-title {
+  font-size: 54px;
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.022em;
+  color: #f2f4ff;
+}
+
+h3.s-sub {
+  font-size: 26px;
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: #eceeff;
+}
+
+.s-title .accent {
+  background: linear-gradient(120deg, var(--color-primary) 0%, var(--color-secondary) 55%, var(--color-accent) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.lead {
+  font-size: 22px;
+  line-height: 1.55;
+  color: #b9c0dc;
+  max-width: 62ch;
+}
+
+.slide > * + * { margin-top: var(--space-3); }
+
+.slide-head { display: flex; flex-direction: column; gap: 14px; }
+
+/* --- rejillas ---------------------------------------------- */
+
+.grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-3); }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-3); }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-2); }
+.split { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-5); align-items: center; }
+.split-wide { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: var(--space-5); align-items: center; }
+.split-narrow { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: var(--space-5); align-items: center; }
+.stack { display: flex; flex-direction: column; gap: var(--space-3); }
+.stack-sm { display: flex; flex-direction: column; gap: var(--space-2); }
+.row { display: flex; align-items: center; gap: var(--space-2); }
+
+/* --- tarjeta HUD ------------------------------------------- */
+
+.card {
+  position: relative;
+  padding: 26px 28px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: linear-gradient(160deg, rgba(16, 24, 35, 0.92), rgba(9, 12, 22, 0.86));
+  overflow: hidden;
+}
+
+.card::before {
+  /* barra de acento superior */
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent-c, var(--color-primary)), transparent 70%);
+  opacity: 0.85;
+}
+
+.card::after {
+  /* marca de esquina HUD */
+  content: '';
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  width: 14px;
+  height: 14px;
+  border-right: 1px solid var(--accent-c, var(--color-primary));
+  border-bottom: 1px solid var(--accent-c, var(--color-primary));
+  opacity: 0.4;
+}
+
+.card.is-violet { --accent-c: var(--color-secondary); }
+.card.is-magenta { --accent-c: var(--color-accent); }
+.card.is-plain::before, .card.is-plain::after { display: none; }
+
+.card-k {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-c, var(--color-primary));
+}
+
+.card-t {
+  font-size: 23px;
+  font-weight: 600;
+  line-height: 1.22;
+  letter-spacing: -0.012em;
+  color: #f0f2ff;
+  margin-bottom: 10px;
+}
+
+.card-p {
+  font-size: 16px;
+  line-height: 1.58;
+  color: #a8b0cf;
+}
+
+.card-p + .card-p { margin-top: 8px; }
+
+.card .icon { width: 18px; height: 18px; flex: none; }
+
+/* --- indicador numerado ------------------------------------ */
+
+.numtag {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  flex: none;
+  border: 1px solid var(--accent-c, var(--color-primary));
+  border-radius: 10px;
+  background: var(--tint-primary-08);
+  font-family: var(--font-mono);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--accent-c, var(--color-primary));
+}
+
+/* --- fichas / etiquetas ------------------------------------ */
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 13px;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.03);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.07em;
+  color: var(--color-muted-foreground);
+  white-space: nowrap;
+}
+
+.chip.is-on {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  background: var(--tint-primary-08);
+}
+
+.chip.is-magenta {
+  border-color: rgba(255, 0, 255, 0.5);
+  color: #ff6bff;
+  background: var(--tint-accent-10);
+}
+
+.chips { display: flex; flex-wrap: wrap; gap: 10px; }
+
+/* --- listas de puntos clave --------------------------------- */
+
+.bullets { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+
+.bullets li {
+  position: relative;
+  padding-left: 26px;
+  font-size: 18px;
+  line-height: 1.5;
+  color: #b7bedb;
+}
+
+.bullets li::before {
+  content: '';
+  position: absolute;
+  left: 2px;
+  top: 10px;
+  width: 7px;
+  height: 7px;
+  border: 1px solid var(--color-primary);
+  transform: rotate(45deg);
+}
+
+.bullets li b, .bullets li strong { color: #f0f2ff; font-weight: 600; }
+.bullets.is-tight li { font-size: 16px; gap: 10px; }
+
+/* --- llamada / nota ---------------------------------------- */
+
+.callout {
+  position: relative;
+  padding: 20px 24px 20px 26px;
+  border-left: 2px solid var(--accent-c, var(--color-primary));
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  background: linear-gradient(90deg, var(--tint-primary-08), transparent 85%);
+  font-size: 17px;
+  line-height: 1.55;
+  color: #c3cae5;
+}
+
+.callout.is-violet { --accent-c: var(--color-secondary); background: linear-gradient(90deg, var(--tint-secondary-10), transparent 85%); }
+.callout.is-magenta { --accent-c: var(--color-accent); background: linear-gradient(90deg, var(--tint-accent-10), transparent 85%); }
+.callout b { color: #f0f2ff; }
+
+/* ============================================================
+   MATEMÁTICAS (sin dependencias externas)
+   ============================================================ */
+
+.m { font-family: var(--font-mono); font-feature-settings: 'ss01'; white-space: nowrap; }
+.m .v { font-style: italic; }
+.m .op { color: var(--color-primary); }
+.m .vec { font-weight: 700; font-style: italic; }
+
+.eq {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 24px 28px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: rgba(8, 11, 21, 0.72);
+  font-family: var(--font-mono);
+  font-size: 30px;
+  color: #eef0ff;
+}
+
+.eq.is-lg { font-size: 40px; padding: 30px 34px; }
+.eq.is-sm { font-size: 22px; padding: 16px 20px; }
+.eq.is-bare { border: 0; background: transparent; padding: 0; }
+.eq .hl { color: var(--color-primary); }
+.eq .hl-v { color: #a58cff; }
+.eq .hl-m { color: #ff6bff; }
+.eq .dim { color: var(--color-muted-foreground); }
+
+/* fracción de derivada parcial */
+.frac {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  line-height: 1.12;
+  font-size: 0.74em;
+  margin: 0 2px;
+}
+
+.frac .num { padding: 0 5px 2px; }
+.frac .den { padding: 2px 5px 0; border-top: 1.5px solid currentColor; }
+
+/* --- determinante 3x3 -------------------------------------- */
+
+.det {
+  position: relative;
+  display: inline-grid;
+  grid-template-columns: repeat(3, minmax(120px, 1fr));
+  gap: 18px 34px;
+  padding: 26px 34px;
+  font-family: var(--font-mono);
+  font-size: 27px;
+  text-align: center;
+  align-items: center;
+}
+
+.det::before,
+.det::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(180deg, transparent, var(--color-border) 12%, var(--color-border) 88%, transparent);
+}
+
+.det::before { left: 0; }
+.det::after { right: 0; }
+
+.det .r1 { color: var(--color-primary); font-weight: 700; font-style: italic; }
+.det .r2 { color: #a58cff; }
+.det .r3 { color: #ff6bff; font-style: italic; }
+
+/* ============================================================
+   RECORRIDO PASO A PASO  ·  data-steps / data-t
+
+   Un contenedor con data-steps="N" recorre sus hijos [data-t].
+   El JS marca el activo con .is-on, así el CSS no tiene que
+   enumerar cada pareja paso/elemento. El énfasis lo pone cada
+   tipo de elemento: las tarjetas se levantan, los términos de
+   una fórmula se iluminan.
+
+   Se usa `.slide` en los selectores a propósito: sube la
+   especificidad por encima de la entrada escalonada
+   (.slide.is-active [data-anim]) para que no peleen.
+   ============================================================ */
+
+[data-steps] { cursor: pointer; border-radius: var(--radius-md); }
+[data-steps]:focus-visible { outline: 2px solid var(--color-ring); outline-offset: 6px; }
+
+.slide [data-t] {
+  transition:
+    opacity 340ms var(--ease-out),
+    transform 340ms var(--ease-out),
+    border-color 340ms var(--ease-out),
+    box-shadow 340ms var(--ease-out),
+    color 340ms var(--ease-out),
+    text-shadow 340ms var(--ease-out);
+}
+
+.slide [data-steps]:not([data-step="0"]) [data-t] { opacity: 0.24; }
+.slide [data-steps]:not([data-step="0"]) [data-t].is-on { opacity: 1; }
+
+/* tarjetas y paneles: se levantan y encienden su borde de acento */
+.slide [data-steps] .card[data-t].is-on,
+.slide [data-steps] .close-card[data-t].is-on,
+.slide [data-steps] .canvas-frame[data-t].is-on,
+.slide li[data-t].is-on {   /* el propio <ol class="steps"> es el contenedor */
+  transform: translateY(-6px);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.5);
+  border-color: var(--accent-c, var(--color-primary));
+}
+
+.slide [data-steps] .card.is-magenta[data-t].is-on,
+.slide [data-steps] .canvas-frame.is-on[data-t].is-on { --accent-c: var(--color-accent); }
+.slide [data-steps] .card.is-violet[data-t].is-on { --accent-c: var(--color-secondary); }
+
+/* ecuaciones y términos de una fórmula: se iluminan en su sitio */
+.slide [data-steps] .eq[data-t].is-on {
+  transform: scale(1.03);
+  border-color: var(--accent-c, var(--color-primary));
+  box-shadow: 0 0 34px rgba(0, 255, 255, 0.12);
+}
+
+.slide [data-steps] .fterm.is-on {
+  transform: scale(1.09);
+  text-shadow: 0 0 26px currentColor;
+}
+
+.fterm[data-t="1"].is-on { color: var(--color-primary); }
+.fterm[data-t="2"].is-on { color: #ff6bff; }
+.fterm[data-t="3"].is-on { color: #a58cff; }
+
+/* pista de interacción, compartida por todos los recorridos */
+.step-hint {
+  align-self: center;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-muted-foreground);
+  opacity: 0.4;
+  transition: opacity var(--dur-ui) var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  [data-steps]:hover .step-hint { opacity: 0.85; }
+}
+
+/* ============================================================
+   EXPANSIÓN POR COFACTORES (diapositiva 11)
+   Tachar la fila 1 y una columna deja a la vista el menor 2×2
+   que produce cada componente. El paso 2 marca el signo del
+   cofactor, que es el error más común al calcular.
+   ============================================================ */
+
+.det-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  border-radius: var(--radius-md);
+}
+
+.det-wrap:focus-visible { outline: 2px solid var(--color-ring); outline-offset: 6px; }
+
+.det .cell {
+  padding: 5px 10px;
+  border-radius: 7px;
+  transition:
+    opacity 340ms var(--ease-out),
+    background-color 340ms var(--ease-out),
+    transform 340ms var(--ease-out),
+    text-shadow 340ms var(--ease-out);
+}
+
+/* durante un paso, todo se atenúa salvo lo que participa */
+.det-wrap[data-step="1"] .cell,
+.det-wrap[data-step="2"] .cell,
+.det-wrap[data-step="3"] .cell { opacity: 0.16; }
+
+/* el vector unitario cuya componente se está construyendo */
+.det-wrap[data-step="1"] .r1.c1,
+.det-wrap[data-step="2"] .r1.c2,
+.det-wrap[data-step="3"] .r1.c3 {
+  opacity: 1;
+  transform: scale(1.22);
+  text-shadow: 0 0 26px currentColor;
+}
+
+/* el menor 2×2 que queda tras tachar la fila 1 y esa columna */
+.det-wrap[data-step="1"] .r2.c2, .det-wrap[data-step="1"] .r2.c3,
+.det-wrap[data-step="1"] .r3.c2, .det-wrap[data-step="1"] .r3.c3,
+.det-wrap[data-step="2"] .r2.c1, .det-wrap[data-step="2"] .r2.c3,
+.det-wrap[data-step="2"] .r3.c1, .det-wrap[data-step="2"] .r3.c3,
+.det-wrap[data-step="3"] .r2.c1, .det-wrap[data-step="3"] .r2.c2,
+.det-wrap[data-step="3"] .r3.c1, .det-wrap[data-step="3"] .r3.c2 {
+  opacity: 1;
+  background-color: rgba(190, 215, 255, 0.075);
+}
+
+/* --- pie que enuncia la componente en curso --- */
+
+.det-step {
+  position: relative;
+  width: 100%;
+  min-height: 64px;
+}
+
+.det-step .ds {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 11px;
+  font-family: var(--font-mono);
+  font-size: 19px;
+  color: #eef0ff;
+  opacity: 0;
+  transform: translate3d(0, 9px, 0);
+  transition: opacity 300ms var(--ease-out), transform 300ms var(--ease-out);
+}
+
+.det-step .lbl {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-muted-foreground);
+}
+
+.ds-warn {
+  padding: 3px 9px;
+  border: 1px solid rgba(255, 0, 255, 0.5);
+  border-radius: 999px;
+  background: var(--tint-accent-10);
+  font-family: var(--font-sans);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #ff6bff;
+}
+
+.det-wrap[data-step="0"] .ds[data-s="0"],
+.det-wrap[data-step="1"] .ds[data-s="1"],
+.det-wrap[data-step="2"] .ds[data-s="2"],
+.det-wrap[data-step="3"] .ds[data-s="3"] {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.det-hint {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-muted-foreground);
+  opacity: 0.45;
+  transition: opacity var(--dur-ui) var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .det-wrap:hover .det-hint { opacity: 0.9; }
+}
+
+.det-legend { display: flex; flex-direction: column; gap: 12px; }
+
+.det-legend .leg {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 15px;
+  line-height: 1.45;
+  color: #a8b0cf;
+}
+
+.det-legend .swatch {
+  width: 10px;
+  height: 10px;
+  margin-top: 6px;
+  flex: none;
+  border-radius: 2px;
+}
+
+.det-legend .leg b { display: block; color: #eceeff; font-weight: 600; font-size: 15px; }
+
+/* --- pasos de cálculo -------------------------------------- */
+
+.steps { display: flex; flex-direction: column; gap: 12px; counter-reset: step; }
+
+.steps li {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 30px 1fr;
+  gap: 14px;
+  align-items: baseline;
+  padding: 13px 16px;
+  border: 1px solid rgba(51, 51, 68, 0.7);
+  border-radius: var(--radius-sm);
+  background: rgba(12, 16, 28, 0.6);
+}
+
+.steps li::before {
+  counter-increment: step;
+  content: counter(step);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-primary);
+  text-align: center;
+}
+
+.steps .st-label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-muted-foreground);
+  margin-bottom: 5px;
+}
+
+.steps .st-math { font-family: var(--font-mono); font-size: 20px; color: #eef0ff; }
+.steps .st-math .res { color: var(--color-primary); }
+.steps .st-math .res-m { color: #ff6bff; }
+
+/* --- resultado destacado ----------------------------------- */
+
+.result {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 20px 26px;
+  border: 1px solid var(--accent-c, var(--color-primary));
+  border-radius: var(--radius-md);
+  background: linear-gradient(100deg, var(--tint-primary-16), transparent 78%);
+  box-shadow: inset 0 0 40px rgba(0, 255, 255, 0.06);
+}
+
+.result.is-magenta {
+  --accent-c: var(--color-accent);
+  background: linear-gradient(100deg, var(--tint-accent-22), transparent 78%);
+  box-shadow: inset 0 0 40px rgba(255, 0, 255, 0.07);
+}
+
+.result .r-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-c, var(--color-primary));
+}
+
+.result .r-math { font-family: var(--font-mono); font-size: 30px; color: #f4f6ff; }
+.result .r-note { margin-left: auto; text-align: right; font-size: 14px; line-height: 1.4; color: #b5bcd8; max-width: 30ch; }
+
+/* --- cifra grande ------------------------------------------ */
+
+.stat { display: flex; flex-direction: column; gap: 6px; }
+.stat .v {
+  font-family: var(--font-mono);
+  font-size: 58px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--color-primary);
+}
+.stat .k { font-size: 14px; color: var(--color-muted-foreground); letter-spacing: 0.04em; }
+
+/* ============================================================
+   DIAPOSITIVA DIVISORIA DE BLOQUE
+   ============================================================ */
+
+.slide.is-divider { justify-content: center; }
+
+.divider-wrap { display: grid; grid-template-columns: auto 1fr; gap: 56px; align-items: center; }
+
+.divider-num {
+  font-family: var(--font-mono);
+  font-size: 200px;
+  font-weight: 700;
+  line-height: 0.82;
+  letter-spacing: -0.06em;
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(0, 255, 255, 0.55);
+  text-shadow: 0 0 60px rgba(0, 255, 255, 0.18);
+}
+
+.divider-body { display: flex; flex-direction: column; gap: 18px; }
+.divider-body h2 { font-size: 62px; font-weight: 600; line-height: 1.05; letter-spacing: -0.025em; }
+.divider-body .who {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-muted-foreground);
+}
+.divider-body .transition {
+  max-width: 58ch;
+  padding-left: 18px;
+  border-left: 2px solid var(--color-secondary);
+  font-size: 18px;
+  line-height: 1.55;
+  font-style: italic;
+  color: #aab2d2;
+}
+
+/* ============================================================
+   LIENZOS / VISUALES
+   ============================================================ */
+
+.canvas-frame {
+  position: relative;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: radial-gradient(circle at 50% 50%, rgba(10, 16, 30, 0.9), rgba(5, 6, 16, 0.95));
+  overflow: hidden;
+}
+
+.canvas-frame canvas { display: block; width: 100%; height: 100%; }
+
+.canvas-frame .cf-label {
+  position: absolute;
+  top: 12px;
+  left: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 11px;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background: rgba(6, 8, 18, 0.8);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-muted-foreground);
+}
+
+.canvas-frame .cf-eq {
+  position: absolute;
+  right: 14px;
+  bottom: 12px;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  background: rgba(6, 8, 18, 0.82);
+  font-family: var(--font-mono);
+  font-size: 15px;
+  color: #dfe3ff;
+}
+
+.canvas-frame.is-on { border-color: rgba(255, 0, 255, 0.45); }
+.canvas-frame.is-on .cf-label { color: #ff6bff; border-color: rgba(255, 0, 255, 0.45); }
+.canvas-frame.is-off .cf-label { color: var(--color-primary); border-color: rgba(0, 255, 255, 0.4); }
+
+.video-frame {
+  position: relative;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: #04060f;
+}
+
+.video-frame video { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+.video-frame::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  box-shadow: inset 0 0 90px rgba(5, 5, 16, 0.75);
+}
+
+/* ============================================================
+   PORTADA
+   ============================================================ */
+
+/* OJO: no declarar `position` aquí. `.slide` ya es `position: absolute`
+   y esta hoja se carga después, así que un `position: relative` en .cover
+   sacaba las dos portadas del posicionamiento absoluto y las apilaba
+   en el flujo normal, descuadrando la primera y la última diapositiva.
+
+   Las portadas ya no llevan lienzo propio: el fondo de líneas de campo
+   (.bg-field) sube a intensidad plena en ellas con data-bg="full". */
+
+.cover-inner { position: relative; z-index: 1; max-width: 1000px; display: flex; flex-direction: column; gap: 26px; }
+
+.cover-glyph {
+  font-family: var(--font-mono);
+  font-size: 120px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--color-primary);
+  text-shadow: 0 0 44px rgba(0, 255, 255, 0.45);
+}
+
+.cover-meta {
+  display: flex;
+  flex-wrap: wrap; /* sin esto, una línea larga ensancha la caja y descuadra la portada */
+  align-items: center;
+  gap: 18px;
+  padding-top: 22px;
+  border-top: 1px solid var(--color-border);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  color: var(--color-muted-foreground);
+}
+
+.cover-meta .sep { width: 4px; height: 4px; border-radius: 50%; background: var(--color-border); }
+
+/* ============================================================
+   AGENDA
+   ============================================================ */
+
+.agenda { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+
+.agenda-item {
+  position: relative;
+  padding: 20px 18px 22px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: linear-gradient(165deg, rgba(16, 24, 35, 0.85), rgba(8, 11, 20, 0.8));
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 176px;
+}
+
+.agenda-item .n {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--color-primary);
+}
+
+.agenda-item .t { font-size: 18px; font-weight: 600; line-height: 1.25; color: #edefff; }
+.agenda-item .d { font-size: 14px; line-height: 1.45; color: #939bba; margin-top: auto; }
+.agenda-item.is-final { border-color: rgba(255, 0, 255, 0.4); background: linear-gradient(165deg, var(--tint-accent-10), rgba(8, 11, 20, 0.8)); }
+.agenda-item.is-final .n { color: #ff6bff; }
+
+/* ============================================================
+   CIERRE
+   ============================================================ */
+
+.close-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+
+.close-card {
+  padding: 22px 24px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: rgba(11, 15, 27, 0.72);
+}
+
+.close-card .k {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  margin-bottom: 10px;
+}
+
+.close-card .t { font-size: 17px; line-height: 1.5; color: #c0c7e2; }
+.close-card .t b { color: #f0f2ff; font-weight: 600; }
+
+.end-mark {
+  font-family: var(--font-mono);
+  font-size: 150px;
+  font-weight: 700;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(123, 97, 255, 0.6);
+}

@@ -1,0 +1,757 @@
+/* ============================================================
+   EL ROTACIONAL — Deck 16:9
+   Design system: ui-ux-pro-max → "HUD / Sci-Fi FUI"
+   Typography:    ui-ux-pro-max → "Developer Mono"
+                  (JetBrains Mono + IBM Plex Sans)
+   Motion:        emilkowalski/animate — transform+opacity,
+                  ease-out fuerte, stagger 40-60ms, reduced-motion
+   ============================================================ */
+
+:root {
+  /* --- color (design-system output) --- */
+  --color-primary: #00ffff;
+  --color-on-primary: #0f172a;
+  --color-secondary: #7b61ff;
+  --color-accent: #ff00ff;
+  --color-background: #050510;
+  --color-foreground: #e0e0ff;
+  --color-card: #101823;
+  --color-muted: #1d1d28;
+  --color-muted-foreground: #94a3b8;
+  --color-border: #333344;
+  --color-ring: #00ffff;
+
+  --tint-primary-08: rgba(0, 255, 255, 0.08);
+  --tint-primary-16: rgba(0, 255, 255, 0.16);
+  --tint-secondary-10: rgba(123, 97, 255, 0.10);
+  --tint-secondary-20: rgba(123, 97, 255, 0.20);
+  --tint-accent-10: rgba(255, 0, 255, 0.10);
+  --tint-accent-22: rgba(255, 0, 255, 0.22);
+
+  /* --- type --- */
+  --font-sans: 'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Cascadia Mono', 'Segoe UI Symbol', ui-monospace, monospace;
+
+  /* --- space (density 4/10 → standard 16-64) --- */
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --space-4: 32px;
+  --space-5: 48px;
+  --space-6: 64px;
+
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+
+  /* --- motion --- */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  --dur-fast: 160ms;
+  --dur-ui: 220ms;
+  /* la diapositiva entra con calma y sale rápido: la atención va
+     siempre a lo que llega, nunca a lo que se va */
+  --dur-in: 950ms;
+  --dur-out: 520ms;
+  /* la que sale se desvanece antes de terminar su recorrido: así nunca
+     hay dos diapositivas legibles a la vez */
+  --dur-out-fade: 300ms;
+  --dur-child-in: 760ms;
+  --dur-child-out: 260ms;
+
+  --stage-w: 1600px;
+  --stage-h: 900px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans);
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+body::before {
+  /* campo de fondo: gradientes + retícula HUD */
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(900px 620px at 12% -10%, rgba(0, 255, 255, 0.10), transparent 60%),
+    radial-gradient(760px 560px at 92% 108%, rgba(123, 97, 255, 0.14), transparent 62%),
+    linear-gradient(180deg, #050510 0%, #060616 55%, #04040d 100%);
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  /* retícula discreta: sostiene el lenguaje HUD sin competir con las
+     líneas de campo, que son las que llevan la voz cantante */
+  opacity: 0.22;
+  background-image:
+    linear-gradient(rgba(0, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 80px 80px;
+  -webkit-mask-image: radial-gradient(ellipse 85% 75% at 50% 45%, #000 35%, transparent 100%);
+  mask-image: radial-gradient(ellipse 85% 75% at 50% 45%, #000 35%, transparent 100%);
+}
+
+/* ============================================================
+   ESCENARIO 16:9 — lienzo fijo 1600x900 escalado al viewport
+   ============================================================ */
+
+.viewport {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+}
+
+.stage {
+  /* centrado con translate, no con grid: un ítem de 1600px dentro de un
+     contenedor más angosto no se centra de forma fiable con place-items */
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: var(--stage-w);
+  height: var(--stage-h);
+  transform-origin: center center;
+  transform: translate(-50%, -50%) scale(var(--scale, 1));
+  /* da profundidad real a los giros de las diapositivas */
+  perspective: 2400px;
+  perspective-origin: 50% 50%;
+  overflow: hidden;
+  border-radius: 4px;
+  background: transparent;
+}
+
+/* ============================================================
+   LÍNEAS DE CAMPO DE FONDO
+   Presentes en todo el deck. La intensidad la marca cada
+   diapositiva con data-bg y cambia al mismo ritmo que la
+   transición, así el fondo respira con la charla.
+   ============================================================ */
+
+.bg-field {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.30;
+  transition: opacity var(--dur-in) var(--ease-out);
+  /* el centro, donde vive el texto, se atenúa; los bordes respiran */
+  -webkit-mask-image: radial-gradient(ellipse 128% 112% at 50% 50%, rgba(0, 0, 0, 0.30) 0%, rgba(0, 0, 0, 0.72) 46%, #000 80%);
+  mask-image: radial-gradient(ellipse 128% 112% at 50% 50%, rgba(0, 0, 0, 0.30) 0%, rgba(0, 0, 0, 0.72) 46%, #000 80%);
+}
+
+.bg-field canvas { display: block; width: 100%; height: 100%; }
+
+.stage[data-bg="strong"] .bg-field { opacity: 0.58; }
+.stage[data-bg="full"] .bg-field { opacity: 0.92; }
+
+/* ============================================================
+   DIAPOSITIVAS
+   ============================================================ */
+
+.slide {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  padding: 72px 88px 96px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  /* Estado de reposo = estado de salida. Cada transición del catálogo
+     define su propio punto de partida con estas variables; el navegador
+     interpola entre el transform compuesto de un estado y el del otro. */
+  opacity: 0;
+  visibility: hidden;
+  transform-origin: var(--to, 50% 50%);
+  transform:
+    translate3d(calc(var(--txb, 0px) * var(--dir, 1)), calc(var(--tyb, 0px) * var(--dir, 1)), 0)
+    scale(var(--tsb, 1))
+    rotate(calc(var(--trb, 0deg) * var(--dir, 1)))
+    rotateY(calc(var(--tryb, 0deg) * var(--dir, 1)))
+    rotateX(var(--trxb, 0deg));
+  clip-path: var(--clip-a, none);
+  transition:
+    opacity var(--dur-out-fade) var(--ease-out),
+    transform var(--dur-out) var(--ease-out),
+    clip-path var(--dur-out) var(--ease-out),
+    visibility 0s linear var(--dur-out);
+}
+
+.slide.is-active {
+  opacity: 1;
+  visibility: visible;
+  transform: translate3d(0, 0, 0) scale(1) rotate(0deg) rotateY(0deg) rotateX(0deg);
+  clip-path: var(--clip-b, none);
+  transition:
+    opacity var(--dur-in) var(--ease-out),
+    transform var(--dur-in) var(--ease-out),
+    clip-path var(--dur-in) var(--ease-out),
+    visibility 0s linear 0s;
+}
+
+/* ============================================================
+   CATÁLOGO DE TRANSICIONES  ·  data-transition="…"
+   Cada diapositiva usa la que corresponde a su contenido:
+   la del remolino gira, la de sustentación sube, la del
+   determinante se escribe de arriba hacia abajo.
+   ============================================================ */
+
+/* desplazamiento lateral — el paso neutro entre pares de ejemplos */
+.slide[data-transition="push"]    { --txb: 190px; --tsb: 0.96; }
+
+/* entra desde abajo / desde arriba */
+.slide[data-transition="rise"]    { --tyb: 170px; --tsb: 0.97; }
+.slide[data-transition="drop"]    { --tyb: -160px; --tsb: 0.97; }
+
+/* acercamiento y alejamiento */
+.slide[data-transition="zoom"]    { --tsb: 1.26; }
+.slide[data-transition="recede"]  { --tsb: 0.76; }
+
+/* giro — reservado para las diapositivas que hablan de rotación */
+.slide[data-transition="spin"]    { --tsb: 0.78; --trb: -14deg; }
+
+/* iris: se abre desde el centro como un diafragma */
+.slide[data-transition="iris"] {
+  --tsb: 1.16;
+  --clip-a: circle(0% at 50% 50%);
+  --clip-b: circle(86% at 50% 50%);
+}
+
+/* barrido horizontal */
+.slide[data-transition="wipe"] {
+  --txb: -60px;
+  --clip-a: inset(0 100% 0 0);
+  --clip-b: inset(0 0 0 0);
+}
+
+/* barrido vertical ascendente — "sustentación" */
+.slide[data-transition="wipe-up"] {
+  --to: 50% 100%;
+  --tyb: 90px;
+  --clip-a: inset(100% 0 0 0);
+  --clip-b: inset(0 0 0 0);
+}
+
+/* se despliega desde el eje central hacia los lados */
+.slide[data-transition="unfold"] {
+  --tsb: 1.14;
+  --clip-a: inset(0 46% 0 46%);
+  --clip-b: inset(0 0 0 0);
+}
+
+/* cae por filas desde arriba — el determinante escribiéndose */
+.slide[data-transition="blade"] {
+  --to: 50% 0%;
+  --tyb: -80px;
+  --trxb: 9deg;
+  --clip-a: inset(0 0 100% 0);
+  --clip-b: inset(0 0 0 0);
+}
+
+/* la página girando sobre su eje vertical, con profundidad real */
+.slide[data-transition="tilt"] {
+  --to: 0% 50%;
+  --txb: 120px;
+  --tsb: 0.92;
+  --tryb: -24deg;
+}
+
+/* ============================================================
+   ENTRADA DEL CONTENIDO  ·  data-anim-style="…"
+   Se combina con la transición de arriba: ningún par se repite
+   en las 28 diapositivas.
+   ============================================================ */
+
+.slide [data-anim] {
+  opacity: 0;
+  transform:
+    translate3d(var(--axb, 0px), var(--ayb, 18px), 0)
+    scale(var(--asb, 1))
+    rotate(var(--arb, 0deg));
+  transition:
+    opacity var(--dur-child-out) var(--ease-out),
+    transform var(--dur-child-out) var(--ease-out);
+}
+
+.slide.is-active [data-anim] {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+  transition:
+    opacity var(--dur-child-in) var(--ease-out),
+    transform var(--dur-child-in) var(--ease-out);
+}
+
+.slide[data-anim-style="rise"]  [data-anim] { --ayb: 58px; }
+.slide[data-anim-style="fall"]  [data-anim] { --ayb: -52px; }
+.slide[data-anim-style="left"]  [data-anim] { --axb: -84px; --ayb: 0px; }
+.slide[data-anim-style="right"] [data-anim] { --axb: 84px; --ayb: 0px; }
+.slide[data-anim-style="pop"]   [data-anim] { --asb: 0.82; --ayb: 30px; }
+.slide[data-anim-style="flip"]  [data-anim] { --ayb: 62px; --asb: 0.90; --arb: -5deg; }
+.slide[data-anim-style="fan"]   [data-anim] { --ayb: 70px; --asb: 0.88; --arb: 5deg; }
+
+/* escalonado: 95ms entre elementos, el ritmo en que se lee una diapositiva */
+.slide.is-active [data-anim="1"] { transition-delay: 110ms; }
+.slide.is-active [data-anim="2"] { transition-delay: 205ms; }
+.slide.is-active [data-anim="3"] { transition-delay: 300ms; }
+.slide.is-active [data-anim="4"] { transition-delay: 395ms; }
+.slide.is-active [data-anim="5"] { transition-delay: 490ms; }
+.slide.is-active [data-anim="6"] { transition-delay: 585ms; }
+.slide.is-active [data-anim="7"] { transition-delay: 680ms; }
+.slide.is-active [data-anim="8"] { transition-delay: 775ms; }
+.slide.is-active [data-anim="9"] { transition-delay: 870ms; }
+
+/* ============================================================
+   BARRIDO HUD — solo en las divisorias de bloque, que aparecen
+   7 veces en toda la charla: el presupuesto de efecto vive aquí.
+   ============================================================ */
+
+.stage-fx {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  pointer-events: none;
+  opacity: 0;
+  overflow: hidden;
+}
+
+.stage-fx::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -40%;
+  width: 40%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 255, 255, 0.07) 38%,
+    rgba(0, 255, 255, 0.26) 50%,
+    rgba(0, 255, 255, 0.07) 62%,
+    transparent
+  );
+  filter: blur(3px);
+}
+
+.stage-fx::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -40%;
+  width: 2px;
+  margin-left: calc(20% - 1px);
+  background: linear-gradient(180deg, transparent, rgba(0, 255, 255, 0.75), transparent);
+  box-shadow: 0 0 18px rgba(0, 255, 255, 0.6);
+}
+
+.stage-fx.is-scanning { opacity: 1; }
+.stage-fx.is-scanning::before,
+.stage-fx.is-scanning::after {
+  animation: hud-scan 1250ms var(--ease-in-out) both;
+}
+
+@keyframes hud-scan {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(350%, 0, 0); }
+}
+
+/* ============================================================
+   CROMO: progreso, marca, navegación
+   ============================================================ */
+
+.progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0%;
+  z-index: 60;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-secondary) 60%, var(--color-accent));
+  box-shadow: 0 0 16px rgba(0, 255, 255, 0.55);
+  transition: width 320ms var(--ease-out);
+}
+
+.deck-chrome {
+  position: fixed;
+  z-index: 55;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: var(--color-muted-foreground);
+  text-transform: uppercase;
+}
+
+.chrome-brand {
+  top: 22px;
+  left: 26px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.chrome-brand .mark {
+  font-size: 15px;
+  color: var(--color-primary);
+  text-shadow: 0 0 14px rgba(0, 255, 255, 0.6);
+}
+
+.chrome-section {
+  top: 22px;
+  right: 26px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.chrome-section .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  box-shadow: 0 0 10px var(--color-primary);
+}
+
+.nav {
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: rgba(10, 12, 24, 0.72);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+}
+
+.nav-btn {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--color-muted-foreground);
+  cursor: pointer;
+  transition: background var(--dur-fast) ease, color var(--dur-fast) ease, transform var(--dur-fast) var(--ease-out);
+}
+
+.nav-btn svg { width: 17px; height: 17px; }
+.nav-btn:focus-visible { outline: 2px solid var(--color-ring); outline-offset: 2px; }
+.nav-btn[aria-pressed="true"] { color: var(--color-primary); background: var(--tint-primary-16); }
+
+@media (hover: hover) and (pointer: fine) {
+  .nav-btn:hover { background: rgba(255, 255, 255, 0.09); color: var(--color-foreground); }
+  .nav-btn:active { transform: scale(0.94); }
+}
+
+.nav-counter {
+  padding: 0 12px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: var(--color-muted-foreground);
+  min-width: 68px;
+  text-align: center;
+}
+
+.nav-counter b { color: var(--color-foreground); font-weight: 500; }
+
+.nav-sep { width: 1px; height: 20px; background: var(--color-border); margin: 0 2px; }
+
+/* ============================================================
+   PANEL DE GUION (tecla N)
+   ============================================================ */
+
+.notes {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 70;
+  max-height: 46vh;
+  padding: 22px 30px 76px;
+  overflow-y: auto;
+  border-top: 1px solid var(--color-border);
+  background: rgba(6, 8, 18, 0.94);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  transform: translate3d(0, 100%, 0);
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    transform 260ms var(--ease-out),
+    opacity 260ms var(--ease-out),
+    visibility 0s linear 260ms;
+}
+
+.notes.is-open {
+  transform: translate3d(0, 0, 0);
+  opacity: 1;
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+.notes-head {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin-bottom: 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+}
+
+.notes-head .who { color: var(--color-muted-foreground); }
+.notes-head .timer { margin-left: auto; color: var(--color-foreground); font-size: 13px; letter-spacing: 0.06em; }
+
+.notes-body { font-size: 16px; line-height: 1.62; color: #c9cfe6; max-width: 1180px; }
+.notes-body p + p { margin-top: 10px; }
+.notes-body em { color: var(--color-foreground); }
+.notes-body strong { color: var(--color-primary); font-weight: 600; }
+
+/* ============================================================
+   VISTA GENERAL (tecla O)
+   ============================================================ */
+
+.overview {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  padding: 40px 44px;
+  overflow-y: auto;
+  background: rgba(4, 5, 14, 0.97);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--dur-ui) var(--ease-out), visibility 0s linear var(--dur-ui);
+}
+
+.overview.is-open { opacity: 1; visibility: visible; transition-delay: 0s; }
+
+.overview-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 26px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-muted-foreground);
+}
+
+.overview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 18px;
+}
+
+.ov-item {
+  position: relative;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: #080a16;
+  cursor: pointer;
+  overflow: hidden;
+  padding: 0;
+  text-align: left;
+  color: inherit;
+  font: inherit;
+  transition: border-color var(--dur-ui) ease, transform var(--dur-ui) var(--ease-out);
+}
+
+.ov-thumb {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+}
+
+.ov-thumb-inner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--stage-w);
+  height: var(--stage-h);
+  transform-origin: top left;
+  pointer-events: none;
+}
+
+/* las miniaturas son copias congeladas: sin recortes ni transiciones */
+.ov-thumb-inner .slide {
+  clip-path: none !important;
+  transform: none !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transition: none !important;
+}
+
+.ov-thumb-inner [data-anim] {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+.ov-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 12px;
+  border-top: 1px solid var(--color-border);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--color-muted-foreground);
+}
+
+.ov-meta .n { color: var(--color-primary); }
+.ov-meta .t {
+  color: #c2c8de;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: 0;
+  font-family: var(--font-sans);
+}
+
+.ov-item[aria-current="true"] { border-color: var(--color-primary); }
+.ov-item:focus-visible { outline: 2px solid var(--color-ring); outline-offset: 3px; }
+
+@media (hover: hover) and (pointer: fine) {
+  .ov-item:hover { border-color: var(--color-secondary); transform: translateY(-3px); }
+}
+
+/* ============================================================
+   AYUDA (tecla ?)
+   ============================================================ */
+
+.help {
+  position: fixed;
+  z-index: 85;
+  left: 50%;
+  top: 50%;
+  width: 460px;
+  transform: translate3d(-50%, -50%, 0) scale(0.96);
+  padding: 26px 28px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: rgba(10, 13, 26, 0.96);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity var(--dur-ui) var(--ease-out),
+    transform var(--dur-ui) var(--ease-out),
+    visibility 0s linear var(--dur-ui);
+}
+
+.help.is-open { opacity: 1; visibility: visible; transform: translate3d(-50%, -50%, 0) scale(1); transition-delay: 0s; }
+
+.help h3 {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  margin-bottom: 16px;
+}
+
+.help dl { display: grid; grid-template-columns: 108px 1fr; gap: 9px 14px; font-size: 14px; }
+.help dt { font-family: var(--font-mono); font-size: 12px; color: var(--color-foreground); }
+.help dd { color: var(--color-muted-foreground); }
+
+kbd {
+  display: inline-block;
+  padding: 2px 7px;
+  border: 1px solid var(--color-border);
+  border-bottom-width: 2px;
+  border-radius: 5px;
+  background: #151a2b;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--color-foreground);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ============================================================
+   PANTALLAS ANGOSTAS — el cromo vive fuera del escenario 16:9,
+   así que necesita su propio ajuste (el contenido no cambia:
+   siempre escala en bloque).
+   ============================================================ */
+
+@media (max-width: 1000px) {
+  .chrome-brand span:not(.mark),
+  .chrome-section .dot { display: none; }
+  .chrome-brand, .chrome-section { top: 14px; }
+  .chrome-brand { left: 16px; }
+  .chrome-section { right: 16px; font-size: 11px; }
+}
+
+@media (max-width: 620px) {
+  .chrome-section { display: none; }
+  .nav { bottom: 12px; gap: 2px; padding: 5px; }
+  .nav-btn { width: 30px; height: 30px; }
+  .nav-btn svg { width: 15px; height: 15px; }
+  .nav-counter { padding: 0 7px; min-width: 56px; font-size: 11px; }
+  .notes { max-height: 56vh; padding: 18px 18px 64px; }
+  .notes-body { font-size: 15px; }
+  .overview { padding: 24px 18px; }
+  .overview-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; }
+  .help { width: calc(100vw - 32px); }
+  .help dl { grid-template-columns: 92px 1fr; }
+}
+
+/* ============================================================
+   MOVIMIENTO REDUCIDO — más suave, no cero
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  /* se conserva el fundido, que ayuda a entender que hubo un cambio;
+     desaparecen los desplazamientos, giros y recortes */
+  .slide,
+  .slide.is-active,
+  .slide [data-anim],
+  .slide.is-active [data-anim] {
+    transform: none;
+    clip-path: none;
+    transition-property: opacity, visibility;
+    transition-duration: 200ms;
+    transition-delay: 0s;
+  }
+  .stage-fx, .stage-fx.is-scanning { display: none; }
+  .notes, .help { transition-property: opacity, visibility; }
+  .notes.is-open { transform: translate3d(0, 0, 0); }
+  .help.is-open { transform: translate3d(-50%, -50%, 0) scale(1); }
+  .progress { transition: none; }
+}

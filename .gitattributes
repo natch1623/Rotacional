@@ -1,0 +1,10 @@
+# Normalizar a LF en el repositorio; cada quien ve sus finales de línea
+# nativos en el disco. Evita diffs ruidosos entre Windows, macOS y Linux.
+* text=auto eol=lf
+
+# Binarios: que Git no los toque
+*.mp4  binary
+*.pdf  binary
+*.woff2 binary
+*.png  binary
+*.jpg  binary

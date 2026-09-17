@@ -1,0 +1,13 @@
+# Skills instaladas con `npx skills add` — son dependencias de terceros
+# (11 MB) y se reinstalan desde skills-lock.json; no son parte del proyecto.
+.agents/
+.claude/skills/
+
+# Del entorno de Claude Code, pero .claude/launch.json sí se versiona:
+# documenta cómo levantar el servidor de vista previa.
+.claude/settings.local.json
+
+# Sistema
+Thumbs.db
+desktop.ini
+.DS_Store
